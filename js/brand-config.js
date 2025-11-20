@@ -65,11 +65,11 @@ window.BrandConfig = {
     // ============================================
     // ANALYTICS & TRACKING
     // ============================================
-    // TODO: Update with Dorothy Tarot analytics IDs
+    // Configure these when setting up analytics
     analytics: {
-        ga4: 'G-XXXXXXXXXX',          // Update with new GA4 property
-        adsense: 'ca-pub-XXXXXXXX',   // Update with new AdSense account
-        conversion: 'AW-XXXXXXXXX'    // Update with new conversion tracking
+        ga4: 'G-XXXXXXXXXX',          // Google Analytics 4 property ID
+        adsense: 'ca-pub-XXXXXXXX',   // Google AdSense publisher ID
+        conversion: 'AW-XXXXXXXXX'    // Google Ads conversion tracking ID
     },
     
     // ============================================
@@ -96,7 +96,6 @@ window.BrandConfig = {
     // ============================================
     // SUPABASE CONFIGURATION
     // ============================================
-    // TODO: Create new Supabase project for Dorothy Tarot
     supabase: {
         url: 'https://cjgmyqtfijuzsvdhzqzw.supabase.co',  // Dorothy Tarot Supabase project
         anonKey: 'sb_publishable_DptLxRa1rHNR9XEjN8B5_A_gxKh0TrQ',  // Anon/public key (safe for client-side)
