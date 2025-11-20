@@ -1,0 +1,312 @@
+/* Material Design 3 Theme with Enhanced Accessibility */
+
+/* Material Design 3 Color System - WCAG AA compliant */
+:root {
+    /* Material Design 3 Primary Colors - High Contrast */
+    --md-sys-color-primary: #2563EB;
+    --md-sys-color-on-primary: #FFFFFF;
+    --md-sys-color-primary-container: #DBEAFE;
+    --md-sys-color-on-primary-container: #0B2257;
+    
+    /* Secondary Colors */
+    --md-sys-color-secondary: #0EA5E9;
+    --md-sys-color-on-secondary: #FFFFFF;
+    --md-sys-color-secondary-container: #CFF4FF;
+    --md-sys-color-on-secondary-container: #062532;
+    
+    /* Accent (Gold) - Enhanced for accessibility */
+    --md-sys-color-tertiary: #F97316;
+    --md-sys-color-on-tertiary: #FFFFFF;
+    --md-sys-color-tertiary-container: #FFE5D1;
+    --md-sys-color-on-tertiary-container: #3B1400;
+    
+    /* Surface Colors - High Contrast */
+    --md-sys-color-surface: #F8FAFC;
+    --md-sys-color-on-surface: #0F172A;
+    --md-sys-color-surface-variant: #E2E8F0;
+    --md-sys-color-on-surface-variant: #475569;
+    
+    /* Background */
+    --md-sys-color-background: #EEF2FF;
+    --md-sys-color-on-background: #0F172A;
+    
+    /* Error */
+    --md-sys-color-error: #BA1A1A;
+    --md-sys-color-on-error: #FFFFFF;
+    --md-sys-color-error-container: #FFDAD6;
+    --md-sys-color-on-error-container: #410002;
+    
+    /* Outline */
+    --md-sys-color-outline: #94A3B8;
+    --md-sys-color-outline-variant: #CBD5F5;
+    
+    /* Shadow */
+    --md-sys-color-shadow: #000000;
+    
+    /* Override existing variables with Material Design colors */
+    --primary-bg: var(--md-sys-color-background);
+    --secondary-bg: var(--md-sys-color-surface);
+    --text-primary: var(--md-sys-color-on-background);
+    --text-secondary: var(--md-sys-color-on-surface-variant);
+    --accent-gold: var(--md-sys-color-primary);
+    --accent-gold-dark: #1D4ED8;
+    --accent-gold-light: #93C5FD;
+    
+    /* Material Design elevation shadows */
+    --md-elevation-1: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --md-elevation-2: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --md-elevation-3: 0px 1px 3px 0px rgba(0, 0, 0, 0.3), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+    --md-elevation-4: 0px 2px 3px 0px rgba(0, 0, 0, 0.3), 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
+    --md-elevation-5: 0px 4px 4px 0px rgba(0, 0, 0, 0.3), 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
+    
+    /* Material Design typography scale */
+    --md-typescale-display-large-font: 400 57px/64px 'Roboto', sans-serif;
+    --md-typescale-display-medium-font: 400 45px/52px 'Roboto', sans-serif;
+    --md-typescale-display-small-font: 400 36px/44px 'Roboto', sans-serif;
+    --md-typescale-headline-large-font: 400 32px/40px 'Roboto', sans-serif;
+    --md-typescale-headline-medium-font: 400 28px/36px 'Roboto', sans-serif;
+    --md-typescale-headline-small-font: 400 24px/32px 'Roboto', sans-serif;
+    --md-typescale-title-large-font: 500 22px/28px 'Roboto', sans-serif;
+    --md-typescale-title-medium-font: 500 16px/24px 'Roboto', sans-serif;
+    --md-typescale-title-small-font: 500 14px/20px 'Roboto', sans-serif;
+    --md-typescale-body-large-font: 400 16px/24px 'Roboto', sans-serif;
+    --md-typescale-body-medium-font: 400 14px/20px 'Roboto', sans-serif;
+    --md-typescale-body-small-font: 400 12px/16px 'Roboto', sans-serif;
+    --md-typescale-label-large-font: 500 14px/20px 'Roboto', sans-serif;
+    --md-typescale-label-medium-font: 500 12px/16px 'Roboto', sans-serif;
+    --md-typescale-label-small-font: 500 11px/16px 'Roboto', sans-serif;
+}
+
+/* Base Material Design styling */
+body {
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background-color: var(--md-sys-color-background);
+    color: var(--md-sys-color-on-background);
+    line-height: 1.5;
+}
+
+/* Material Design Buttons */
+button, .btn, .draw-btn, .magical-cta-btn {
+    /* Material Design Filled Button */
+    background-color: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 24px;
+    font: var(--md-typescale-label-large-font);
+    text-transform: uppercase;
+    letter-spacing: 0.1px;
+    box-shadow: var(--md-elevation-2);
+    transition: box-shadow 0.2s ease, background-color 0.2s ease;
+    cursor: pointer;
+    min-height: 40px;
+}
+
+button:hover, .btn:hover, .draw-btn:hover, .magical-cta-btn:hover {
+    box-shadow: var(--md-elevation-4);
+    background-color: var(--md-sys-color-primary);
+    filter: brightness(1.08);
+}
+
+button:active, .btn:active, .draw-btn:active, .magical-cta-btn:active {
+    box-shadow: var(--md-elevation-1);
+}
+
+button:focus-visible, .btn:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 2px;
+}
+
+/* Material Design Text Fields */
+input, textarea, select {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    border: 1px solid var(--md-sys-color-outline);
+    border-radius: 4px;
+    padding: 16px;
+    font: var(--md-typescale-body-large-font);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    min-height: 56px;
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--md-sys-color-primary);
+    border-width: 2px;
+    box-shadow: 0 0 0 1px var(--md-sys-color-primary);
+}
+
+input::placeholder, textarea::placeholder {
+    color: var(--md-sys-color-on-surface-variant);
+    opacity: 0.6;
+}
+
+/* Material Design Cards */
+.question-section, .content-section, .cta-section, .seo-content, 
+.magical-input-card, .reading-area, .share-modal .modal-content {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--md-elevation-1);
+    border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+/* Material Design Typography */
+h1, .hero-title {
+    font: var(--md-typescale-headline-large-font);
+    color: var(--md-sys-color-on-background);
+    margin-bottom: 16px;
+    /* Allow decorative fonts for hero if desired */
+    font-family: 'Cinzel', serif;
+}
+
+h2 {
+    font: var(--md-typescale-headline-medium-font);
+    color: var(--md-sys-color-on-background);
+    margin-bottom: 16px;
+}
+
+h3 {
+    font: var(--md-typescale-headline-small-font);
+    color: var(--md-sys-color-on-background);
+    margin-bottom: 12px;
+}
+
+p, body {
+    font: var(--md-typescale-body-large-font);
+    color: var(--md-sys-color-on-surface);
+}
+
+/* Material Design Links */
+a {
+    color: var(--md-sys-color-primary);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--md-sys-color-primary);
+    filter: brightness(0.8);
+}
+
+a:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+/* Material Design Spread Cards */
+.spread-card {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    border: 1px solid var(--md-sys-color-outline-variant);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--md-elevation-1);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.spread-card:hover {
+    box-shadow: var(--md-elevation-2);
+}
+
+.spread-card.active {
+    background-color: var(--md-sys-color-primary-container);
+    color: var(--md-sys-color-on-primary-container);
+    border-color: var(--md-sys-color-primary);
+}
+
+/* Material Design Pill Toggle */
+.pill-toggle-option {
+    background-color: var(--md-sys-color-surface-variant);
+    color: var(--md-sys-color-on-surface-variant);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.pill-toggle-option.active {
+    background-color: var(--md-sys-color-secondary-container);
+    color: var(--md-sys-color-on-secondary-container);
+}
+
+/* Material Design Modal */
+.share-modal .modal-content {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    border-radius: 28px;
+    box-shadow: var(--md-elevation-5);
+    max-width: 560px;
+}
+
+/* Material Design Footer */
+.footer, .floating-footer {
+    background-color: var(--md-sys-color-surface);
+    color: var(--md-sys-color-on-surface);
+    border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+/* High contrast focus indicators for accessibility */
+*:focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 2px;
+}
+
+/* Skip links for screen readers */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--md-sys-color-primary);
+    color: var(--md-sys-color-on-primary);
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* Ensure minimum contrast ratios */
+.text-primary { color: var(--md-sys-color-on-background); }
+.text-secondary { color: var(--md-sys-color-on-surface-variant); }
+.text-muted { color: var(--md-sys-color-on-surface-variant); opacity: 0.7; }
+
+/* Material Design Ripple Effect (optional enhancement) */
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+button, .btn {
+    position: relative;
+    overflow: hidden;
+}
+
+button::after, .btn::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    width: 100px;
+    height: 100px;
+    margin-top: -50px;
+    margin-left: -50px;
+    top: 50%;
+    left: 50%;
+    transform: scale(0);
+    opacity: 0;
+    pointer-events: none;
+}
+
+button:active::after, .btn:active::after {
+    animation: ripple 0.6s ease-out;
+}
+

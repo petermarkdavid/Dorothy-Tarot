@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dorothy Tarot - Free Tarot Readings | AI-Powered Cards & Daily Horoscopes</title>
+    <!-- Cache bust: 1760353200 -->
+    
+    <!-- Cache Control -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Dorothy Tarot - Free AI-powered tarot card readings for the LGBTI community. Get instant, personalized interpretations and daily horoscopes in a welcoming, inclusive space.">
+    <meta name="keywords" content="tarot reading, LGBTI tarot, gay tarot, inclusive tarot, AI tarot, online tarot, tarot cards, tarot interpretation, free tarot reading, tarot guidance, Dorothy Tarot, virtual tarot reader, queer tarot, LGBTQ tarot">
+    <meta name="author" content="Dorothy Tarot">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="bingbot" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="geo.region" content="US">
+    <meta name="geo.placename" content="United States">
+    <meta name="theme-color" content="#8B4CBF">
+    <meta name="msapplication-TileColor" content="#8B4CBF">
+    <meta name="msapplication-config" content="assets/browserconfig.xml">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Dorothy Tarot">
+    <meta name="application-name" content="Dorothy Tarot">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+  
+    <!-- Google Analytics 4 - TODO: Update with Dorothy Tarot GA4 ID -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script> -->
+    <!-- <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script> -->
+    
+    <!-- Google Ads Conversion Tracking - TODO: Update with Dorothy Tarot conversion ID -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=AW-XXXXXXXXX"></script> -->
+    
+    <!-- Google AdSense - TODO: Update with Dorothy Tarot AdSense ID -->
+    <!-- <meta name="google-adsense-account" content="ca-pub-XXXXXXXX"> -->
+    
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://www.google.com https://fundingchoicesmessages.google.com https://unpkg.com https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.openai.com https://googleads.g.doubleclick.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://www.google.com https://www.google-analytics.com https://fundingchoicesmessages.google.com https://*.supabase.co https://*.supabase.com https://www.google.co.nz https://www.googleadservices.com; frame-src 'self' https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://www.google.com https://fundingchoicesmessages.google.com https://www.googletagmanager.com;">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dorothytarot.com/">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    
+    <!-- Sitemap -->
+    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://dorothytarot.com/sitemap.xml">
+    
+    <!-- Favicon - TODO: Create Dorothy Tarot favicons -->
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Dorothy Tarot - Free AI-Powered Tarot Card Readings & Daily Horoscopes | Inclusive Space">
+    <meta property="og:description" content="Get instant, personalized tarot card readings with AI-powered interpretations and daily horoscopes. Free online tarot reading in a welcoming, inclusive space for the LGBTI community.">
+    <meta property="og:url" content="https://dorothytarot.com">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://dorothytarot.com/og-image.svg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Dorothy Tarot - AI-Powered Tarot Card Reading">
+    <meta property="og:image:type" content="image/svg+xml">
+    <meta property="og:site_name" content="Dorothy Tarot">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dorothy Tarot - Free AI-Powered Tarot Card Readings & Daily Horoscopes">
+    <meta name="twitter:description" content="Get instant, personalized tarot card readings with AI-powered interpretations and daily horoscopes. Free online tarot reading in a welcoming, inclusive space.">
+    <meta name="twitter:image" content="https://dorothytarot.com/og-image.svg">
+    <meta name="twitter:image:alt" content="Dorothy Tarot - AI-Powered Tarot Card Reading">
+    <meta name="twitter:creator" content="@dorothytarot">
+    <meta name="twitter:site" content="@dorothytarot">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/material-theme.css">
+    <link rel="stylesheet" href="css/brand-styles.css">
+    
+    <!-- Material Design 3 - Roboto Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet"></noscript>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Dorothy Tarot - AI-Powered Tarot Card Readings & Daily Horoscopes",
+        "description": "Free AI-powered tarot card readings with instant interpretations and daily horoscopes. Get personalized guidance in a welcoming, inclusive space for the LGBTI community.",
+        "url": "https://dorothytarot.com",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "Free tarot card readings"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "Dorothy Tarot",
+            "url": "https://dorothytarot.com"
+        },
+        "featureList": [
+            "AI-powered tarot interpretations",
+            "Daily horoscope readings",
+            "Celtic Cross spread",
+            "5-card comprehensive reading",
+            "12-month yearly reading",
+            "Personalized guidance",
+            "Free online tarot reading",
+            "Star sign integration",
+            "Inclusive, welcoming space"
+        ],
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "softwareVersion": "1.0",
+        "datePublished": "2024-12-19",
+        "dateModified": "2024-12-19",
+        "inLanguage": "en-US",
+        "isAccessibleForFree": true,
+        "keywords": "tarot reading, LGBTI tarot, gay tarot, inclusive tarot, AI tarot, online tarot, tarot cards, tarot interpretation, free tarot reading, tarot guidance, Dorothy Tarot, virtual tarot reader, queer tarot, LGBTQ tarot"
+    }
+    </script>
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Dorothy Tarot",
+        "url": "https://dorothytarot.com",
+        "description": "Free AI-powered tarot card readings and daily horoscopes in a welcoming, inclusive space",
+        "foundingDate": "2024-12-19",
+        "sameAs": [
+            "https://twitter.com/dorothytarot"
+        ]
+    }
+    </script>
+    
+</head>
+<body>
+    <!-- JavaScript initialization -->
+    <script>
+        // JavaScript environment ready
+    </script>
+    
+    <!-- Skip Navigation Links for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#cards-container" class="skip-link">Skip to cards</a>
+    <a href="#interpretation" class="skip-link">Skip to reading</a>
+    
+    <div class="container">
+        <header class="header">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <p class="hero-eyebrow">Inclusive tarot guidance · Available 24/7</p>
+                    <h1 class="hero-title">Discover your path with confidence and pride.</h1>
+                    <p class="hero-subtitle">Get instant AI-powered tarot readings in a safe, inclusive space. Share your journey with friends who understand.</p>
+                    <div class="hero-actions">
+                        <button class="hero-cta" type="button" data-scroll-target="#readingForm">
+                            <span class="material-icons" aria-hidden="true">auto_fix_high</span>
+                            Start your reading
+                        </button>
+                        <a class="hero-secondary" href="../../tarot-guide.html">
+                            <span class="material-icons" aria-hidden="true">menu_book</span>
+                            Explore tarot guide
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <span class="stat-value">120K+</span>
+                            <span class="stat-label">Readings shared</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">30 secs</span>
+                            <span class="stat-label">Average insight time</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="stat-value">4.9 ★</span>
+                            <span class="stat-label">Community rating</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-glow hero-glow-one"></div>
+                    <div class="hero-glow hero-glow-two"></div>
+                    <div class="hero-card hero-card-main">
+                        <div class="hero-card-icon material-icons" aria-hidden="true">psychology</div>
+                        <p class="hero-card-title">Personal insight</p>
+                        <p class="hero-card-text">Tarot + AI interprets your question with context-aware guidance.</p>
+                    </div>
+                    <div class="hero-card hero-card-secondary">
+                        <p class="hero-card-chip">Live now</p>
+                        <p class="hero-card-value">13,482</p>
+                        <p class="hero-card-label">Daily horoscope readers</p>
+                    </div>
+                    <div class="hero-card hero-card-tertiary">
+                        <p class="hero-card-label">Share-ready link</p>
+                        <p class="hero-card-text">Every reading generates a unique, privacy-safe link for friends.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content" id="main-content" role="main" aria-label="Tarot reading application">
+            <div class="magical-input-card" id="readingForm">
+                <div class="input-section">
+                    <div class="personal-info-inputs">
+                        <div class="input-group">
+                            <div class="input-icon material-icons" aria-hidden="true">badge</div>
+                            <input type="text" id="userName" placeholder=" " aria-label="Enter your name for personalized readings" />
+                            <label for="userName" class="floating-label">Your name</label>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-icon material-icons" aria-hidden="true">nightlight</div>
+                            <input type="text" id="userStarsign" class="starsign-select" 
+                                   placeholder=" " 
+                                   list="starsign-options"
+                                   autocomplete="off"
+                                   aria-label="Select your star sign for personalized readings">
+                            <label for="userStarsign" class="floating-label">Star sign</label>
+                            <datalist id="starsign-options">
+                                <option value="Aries">♈ Aries (Mar 21 - Apr 19)</option>
+                                <option value="Taurus">♉ Taurus (Apr 20 - May 20)</option>
+                                <option value="Gemini">♊ Gemini (May 21 - Jun 20)</option>
+                                <option value="Cancer">♋ Cancer (Jun 21 - Jul 22)</option>
+                                <option value="Leo">♌ Leo (Jul 23 - Aug 22)</option>
+                                <option value="Virgo">♍ Virgo (Aug 23 - Sep 22)</option>
+                                <option value="Libra">♎ Libra (Sep 23 - Oct 22)</option>
+                                <option value="Scorpio">♏ Scorpio (Oct 23 - Nov 21)</option>
+                                <option value="Sagittarius">♐ Sagittarius (Nov 22 - Dec 21)</option>
+                                <option value="Capricorn">♑ Capricorn (Dec 22 - Jan 19)</option>
+                                <option value="Aquarius">♒ Aquarius (Jan 20 - Feb 18)</option>
+                                <option value="Pisces">♓ Pisces (Feb 19 - Mar 20)</option>
+                            </datalist>
+                        </div>
+                    </div>
+                    
+                    <div class="question-input-group">
+                        <div class="input-icon material-icons" aria-hidden="true">question_answer</div>
+                        <textarea id="userQuestion" 
+                                  placeholder=" " 
+                                  rows="3" 
+                                  maxlength="75"
+                                  aria-label="Enter your question for the tarot cards"
+                                  aria-describedby="charCount question-desc"></textarea>
+                        <label for="userQuestion" class="floating-label">What guidance do you seek today?</label>
+                        <div class="char-counter" id="charCount" aria-live="polite">
+                            <span id="charCount">0</span>/75 characters
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reading-type-selection">
+                    <div class="pill-toggle-container">
+                        <label class="pill-toggle-option active">
+                            <input type="radio" name="readingType" value="question" checked aria-describedby="question-desc" />
+                            <span class="pill-content">
+                                <span class="pill-icon material-icons" aria-hidden="true">psychology</span>
+                                <span class="pill-text">Specific Question</span>
+                            </span>
+                        </label>
+                        <label class="pill-toggle-option">
+                            <input type="radio" name="readingType" value="general" aria-describedby="general-desc" />
+                            <span class="pill-content">
+                                <span class="pill-icon material-icons" aria-hidden="true">auto_awesome</span>
+                                <span class="pill-text">General Reading</span>
+                            </span>
+                        </label>
+                        <label class="pill-toggle-option">
+                            <input type="radio" name="readingType" value="horoscope" aria-describedby="horoscope-desc" />
+                            <span class="pill-content">
+                                <span class="pill-icon material-icons" aria-hidden="true">wb_sunny</span>
+                                <span class="pill-text">Daily Horoscope</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div id="generalReadingInfo" class="general-reading-info hidden" id="general-desc">
+                    <p>Get a general reading about your current life situation, challenges, and opportunities without asking a specific question.</p>
+                </div>
+                
+                <div id="horoscopeReadingInfo" class="horoscope-reading-info hidden" id="horoscope-desc">
+                    <p>Get your personalized daily horoscope reading based on your star sign. Discover what the stars have in store for you today!</p>
+                </div>
+                
+                <div id="question-desc" class="visually-hidden">
+                    <p>Enter a specific question you'd like guidance on. The tarot cards will provide insights related to your question.</p>
+                </div>
+                
+                <div class="spread-selection">
+                    <h3 id="spread-heading">Choose Your Tarot Spread</h3>
+                    <div class="spread-options" role="group" aria-labelledby="spread-heading">
+                        <button class="spread-card active" 
+                                data-spread="single" 
+                                aria-pressed="true"
+                                aria-describedby="single-desc">
+                        <div class="card-icon material-icons" aria-hidden="true">looks_one</div>
+                            <div class="card-label">Single Card</div>
+                        </button>
+                        <button class="spread-card" 
+                                data-spread="three" 
+                                aria-pressed="false"
+                                aria-describedby="three-desc">
+                        <div class="card-icon material-icons" aria-hidden="true">timeline</div>
+                            <div class="card-label">Three Card</div>
+                        </button>
+                        <button class="spread-card premium-card" 
+                                data-spread="five" 
+                                data-premium="true"
+                                aria-pressed="false"
+                                aria-describedby="five-desc">
+                        <div class="card-icon material-icons" aria-hidden="true">auto_stories</div>
+                            <div class="card-label">Five Card</div>
+                            <div class="premium-overlay">
+                                <div class="lock-icon">🔒</div>
+                                <div class="premium-text">Premium</div>
+                            </div>
+                        </button>
+                        <button class="spread-card premium-card" 
+                                data-spread="twelve" 
+                                data-premium="true"
+                                aria-pressed="false"
+                                aria-describedby="twelve-desc">
+                        <div class="card-icon material-icons" aria-hidden="true">calendar_month</div>
+                            <div class="card-label">12 Month</div>
+                            <div class="premium-overlay">
+                                <div class="lock-icon">🔒</div>
+                                <div class="premium-text">Premium</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <div class="action-buttons">
+                        <button id="drawCards" 
+                                class="magical-cta-btn" 
+                                aria-describedby="draw-cards-desc"
+                                aria-label="Reveal your tarot reading">
+                            <span class="btn-glow"></span>
+                            <span class="btn-content">
+                            <span class="btn-icon material-icons" aria-hidden="true">auto_fix_high</span>
+                                <span class="btn-text">Reveal My Reading</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="api-config" id="apiConfig">
+                <h3>🔮 Enhanced AI Interpretations</h3>
+                <p id="apiConfigMessage">For personalized interpretations powered by AI, enter your OpenAI API key:</p>
+                <form class="api-key-form" onsubmit="return false;">
+                    <input type="password" id="apiKey" placeholder="Enter your OpenAI API key (optional)" autocomplete="new-password" />
+                    <div class="api-buttons">
+                        <button id="saveApiKey" class="save-btn" type="button">Save Key</button>
+                        <button id="clearApiKey" class="clear-btn" type="button">Clear Key</button>
+                    </div>
+                </form>
+                <p class="api-note">Your API key is stored locally and never shared. <a href="https://platform.openai.com/api-keys" target="_blank">Get your API key here</a></p>
+            </div>
+
+            <div id="readingArea" class="reading-area hidden" role="region" aria-labelledby="reading-title">
+                <h3 id="reading-title">Your Tarot Reading</h3>
+                <div id="cardsContainer" 
+                     class="cards-container" 
+                     role="img" 
+                     aria-label="Drawn tarot cards"
+                     aria-live="polite"></div>
+                <div id="loadingIndicator" 
+                     class="loading-indicator hidden" 
+                     role="status" 
+                     aria-live="polite"
+                     aria-label="Loading your tarot reading">
+                    <div class="spinner" aria-hidden="true"></div>
+                    <p id="loadingMessage">🔮 Dorothy is preparing your personalized reading...</p>
+                </div>
+                
+                <div id="interpretation" 
+                     class="interpretation" 
+                     role="region" 
+                     aria-labelledby="interpretation-title"
+                     aria-live="polite"></div>
+                
+                <div id="shareReadingSection" class="share-reading-section hidden">
+                    <div class="share-actions">
+                        <button id="shareReadingBtn" class="share-btn" aria-label="Share this reading with a friend">
+                            <span class="share-icon">✉️</span>
+                            <span class="share-text">Share Your Reading</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="floating-footer">
+            <div class="footer-content">
+                <p class="footer-message">Trust your intuition and let the cards guide you</p>
+                <div class="footer-links">
+                    <a href="../../about.html" class="footer-link">About</a>
+                    <a href="../../privacy-policy.html" class="footer-link">Privacy</a>
+                    <a href="../../contact.html" class="footer-link">Contact</a>
+                </div>
+            </div>
+        </footer>
+        
+        <!-- Dark Mode Toggle -->
+        <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Toggle dark mode">
+            <span class="material-icons toggle-icon" aria-hidden="true">dark_mode</span>
+        </button>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="shareModal" class="share-modal hidden" role="dialog" aria-labelledby="shareModalTitle" aria-modal="true">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="shareModalTitle" class="modal-title">🔮 Share Your Reading</h2>
+                <button id="closeShareModal" class="modal-close-btn" aria-label="Close share modal">&times;</button>
+            </div>
+            
+            <div class="modal-body">
+                <div id="readingPreview" class="reading-preview">
+                    <h3>Reading Preview</h3>
+                    <div class="preview-content">
+                        <div class="preview-cards" id="previewCards"></div>
+                        <div class="preview-details">
+                            <p><strong>Type:</strong> <span id="previewType"></span></p>
+                            <p><strong>Spread:</strong> <span id="previewSpread"></span></p>
+                            <p><strong>Date:</strong> <span id="previewDate"></span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <form id="shareEmailForm" class="share-email-form">
+                    <div class="form-group">
+                        <label for="friendName" class="form-label">Friend's Name (Optional)</label>
+                        <input type="text" id="friendName" class="form-input" placeholder="Enter your friend's name" maxlength="50">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="friendEmail" class="form-label">Friend's Email <span class="required">*</span></label>
+                        <input type="email" id="friendEmail" class="form-input" placeholder="friend@example.com" required>
+                        <div id="emailError" class="error-message hidden"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="personalMessage" class="form-label">Personal Message (Optional)</label>
+                        <textarea id="personalMessage" class="form-textarea" placeholder="Add a personal message..." maxlength="200" rows="3"></textarea>
+                        <div class="char-counter">
+                            <span id="messageCharCount">0</span>/200 characters
+                        </div>
+                    </div>
+                </form>
+
+                <div id="shareLoading" class="share-loading hidden">
+                    <div class="loading-spinner"></div>
+                    <p>Sending your reading...</p>
+                </div>
+
+                <div id="shareSuccess" class="share-success hidden">
+                    <div class="success-icon">✨</div>
+                    <h3>Reading Shared Successfully!</h3>
+                    <p>Your reading has been sent to your friend.</p>
+                    <div class="shareable-link">
+                        <label for="shareableUrl">Shareable Link:</label>
+                        <div class="link-container">
+                            <input type="text" id="shareableUrl" class="link-input" readonly>
+                            <button id="copyLinkBtn" class="copy-link-btn" aria-label="Copy link to clipboard">📋</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="shareError" class="share-error hidden">
+                    <div class="error-icon">⚠️</div>
+                    <h3>Oops! Something went wrong</h3>
+                    <p id="errorMessage">Please try again later.</p>
+                    <button id="retryShareBtn" class="retry-btn">Try Again</button>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="cancelShareBtn" class="btn btn-secondary">Cancel</button>
+                <button id="sendShareBtn" class="btn btn-primary" disabled>
+                    <span class="btn-text">Send Reading</span>
+                    <span class="btn-icon">📧</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Premium Paywall Modal -->
+    <div id="paywallModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔮 Unlock Premium Readings</h2>
+                <button class="modal-close-btn" id="closePaywallModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="premium-features">
+                    <h3>✨ Premium Features Coming Soon:</h3>
+                    <ul>
+                        <li><strong>Five Card Reading</strong> - Comprehensive 5-position spread</li>
+                        <li><strong>12 Month Reading</strong> - Year-long monthly guidance</li>
+                        <li><strong>Advanced AI Interpretations</strong> - More detailed readings</li>
+                        <li><strong>Priority Support</strong> - Faster response times</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brand Configuration (must load first) - Dorothy Tarot -->
+    <script src="js/brand-config.js"></script>
+    
+    <!-- Scripts -->
+    <script src="js/tarot-data.js"></script>
+    <script src="js/zodiac-data.js"></script>
+    <script src="js/chatgpt-integration.js?v=1760133400"></script>
+    <script src="js/google-ads-config.js?v=1760352620"></script>
+    
+    <!-- Configuration -->
+    <script src="js/config.js"></script>
+    
+    <!-- Supabase Integration -->
+    <script>
+        // Load Supabase scripts only if features are enabled
+        if (window.AskSianConfig?.features?.supabaseIntegration) {
+            const supabaseScript = document.createElement('script');
+            supabaseScript.src = 'https://unpkg.com/@supabase/supabase-js@2';
+            document.head.appendChild(supabaseScript);
+            
+            supabaseScript.onload = function() {
+                const configScript = document.createElement('script');
+                configScript.src = 'js/supabase-config.js';
+                document.head.appendChild(configScript);
+                
+                configScript.onload = function() {
+                    if (window.AskSianConfig?.features?.readingStorage) {
+                        const storageScript = document.createElement('script');
+                        storageScript.src = 'js/reading-storage-supabase.js';
+                        document.head.appendChild(storageScript);
+                    }
+                };
+            };
+        }
+        
+        if (window.AskSianConfig?.features?.emailSharing) {
+            const emailScript = document.createElement('script');
+            emailScript.src = 'js/email-service.js';
+            document.head.appendChild(emailScript);
+        }
+    </script>
+    
+    <script src="js/script.js?v=1760352620"></script>
+    
+    <!-- Fix image paths for Dorothy Tarot subdirectory - Must run after script.js -->
+    <script>
+        // Patch image paths after script.js loads
+        (function() {
+            function patchImagePaths() {
+                if (typeof TarotReader !== 'undefined') {
+                    // Patch getCardImageUrl method
+                    const originalGetCardImageUrl = TarotReader.prototype.getCardImageUrl;
+                    TarotReader.prototype.getCardImageUrl = function(card) {
+                        const fileName = this.getCardFileName(card);
+                        const timestamp = Date.now();
+                        const random = Math.random().toString(36).substring(7);
+                        // Use relative path from sites/dorothy-tarot/ to images/
+                        const localUrl = `images/cards/${fileName}-${card.isReversed ? 'reversed' : 'upright'}.png?v=${timestamp}&r=${random}`;
+                        return localUrl;
+                    };
+                    
+                    // Patch createShufflingCards to fix card back image path
+                    const originalCreateShufflingCards = TarotReader.prototype.createShufflingCards;
+                    TarotReader.prototype.createShufflingCards = function() {
+                        // Call original method
+                        if (originalCreateShufflingCards) {
+                            originalCreateShufflingCards.call(this);
+                        }
+                        // Fix all card back images after they're created
+                        setTimeout(() => {
+                            const shufflingCards = document.querySelectorAll('.shuffling-card img');
+                            shufflingCards.forEach(img => {
+                                if (img.src.includes('card-back-plaid.png') || img.src.includes('images/cards/card-back')) {
+                                    img.src = 'images/cards/card-back-plaid.png';
+                                }
+                            });
+                        }, 100);
+                    };
+                    
+                    console.log('✅ Image paths patched for Dorothy Tarot');
+                    return true;
+                }
+                return false;
+            }
+            
+            // Try to patch immediately, then retry if needed
+            if (!patchImagePaths()) {
+                let attempts = 0;
+                const maxAttempts = 50; // Try for up to 5 seconds
+                const interval = setInterval(() => {
+                    attempts++;
+                    if (patchImagePaths() || attempts >= maxAttempts) {
+                        clearInterval(interval);
+                        if (attempts >= maxAttempts) {
+                            console.warn('⚠️ Could not patch image paths - TarotReader not found');
+                        }
+                    }
+                }, 100);
+            }
+        })();
+    </script>
+    
+    <!-- Update loading message with brand config -->
+    <script>
+        // Update loading message when brand config is available
+        setTimeout(() => {
+            if (window.BrandConfig) {
+                const loadingMsg = document.getElementById('loadingMessage');
+                if (loadingMsg) {
+                    loadingMsg.textContent = window.BrandConfig.getUIText('loadingMessage');
+                }
+            }
+        }, 100);
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,69 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#16213e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Gold gradient for text -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f4d03f;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Card shadow -->
+    <filter id="cardShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="8" stdDeviation="15" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Mystical background pattern -->
+  <circle cx="200" cy="150" r="3" fill="#d4af37" opacity="0.3"/>
+  <circle cx="1000" cy="200" r="2" fill="#d4af37" opacity="0.4"/>
+  <circle cx="150" cy="450" r="2" fill="#d4af37" opacity="0.3"/>
+  <circle cx="1050" cy="500" r="3" fill="#d4af37" opacity="0.4"/>
+  <circle cx="300" cy="100" r="1" fill="#d4af37" opacity="0.5"/>
+  <circle cx="900" cy="550" r="1" fill="#d4af37" opacity="0.5"/>
+  
+  <!-- Tarot cards -->
+  <!-- Card 1 (The Star) -->
+  <rect x="200" y="200" width="120" height="180" rx="15" fill="url(#gold)" filter="url(#cardShadow)"/>
+  <rect x="210" y="210" width="100" height="160" rx="10" fill="#1a1a2e"/>
+  <text x="260" y="250" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="16" font-weight="bold">The Star</text>
+  <text x="260" y="320" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="24">⭐</text>
+  <text x="260" y="350" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="12">Hope & Guidance</text>
+  
+  <!-- Card 2 (The Moon) -->
+  <rect x="400" y="180" width="120" height="180" rx="15" fill="url(#gold)" filter="url(#cardShadow)"/>
+  <rect x="410" y="190" width="100" height="160" rx="10" fill="#1a1a2e"/>
+  <text x="460" y="230" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="16" font-weight="bold">The Moon</text>
+  <text x="460" y="300" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="24">🌙</text>
+  <text x="460" y="330" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="12">Intuition</text>
+  
+  <!-- Card 3 (The Sun) -->
+  <rect x="600" y="220" width="120" height="180" rx="15" fill="url(#gold)" filter="url(#cardShadow)"/>
+  <rect x="610" y="230" width="100" height="160" rx="10" fill="#1a1a2e"/>
+  <text x="660" y="270" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="16" font-weight="bold">The Sun</text>
+  <text x="660" y="340" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="24">☀️</text>
+  <text x="660" y="370" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="12">Success</text>
+  
+  <!-- Main title -->
+  <text x="600" y="120" text-anchor="middle" fill="url(#gold)" font-family="serif" font-size="72" font-weight="bold">Ask Sian</text>
+  
+  <!-- Subtitle -->
+  <text x="600" y="160" text-anchor="middle" fill="#e8e8e8" font-family="serif" font-size="28">AI-Powered Tarot Readings</text>
+  
+  <!-- Features -->
+  <text x="600" y="480" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="24" font-weight="bold">Free • Instant • Personalized</text>
+  <text x="600" y="510" text-anchor="middle" fill="#b8b8b8" font-family="serif" font-size="18">Get guidance from the cards with AI interpretations</text>
+  
+  <!-- Decorative elements -->
+  <text x="100" y="100" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="48" opacity="0.3">🔮</text>
+  <text x="1100" y="580" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="48" opacity="0.3">✨</text>
+  <text x="600" y="580" text-anchor="middle" fill="#d4af37" font-family="serif" font-size="32" opacity="0.2">asksian.com</text>
+</svg>

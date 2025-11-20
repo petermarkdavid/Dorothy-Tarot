@@ -1,0 +1,49 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /about.html
+Allow: /tarot-guide.html
+Allow: /privacy-policy.html
+Allow: /terms-of-service.html
+Allow: /contact.html
+
+# Error pages - allow access but don't index
+Allow: /404.html
+Allow: /500.html
+
+# Sitemap location
+Sitemap: https://asksian.com/sitemap.xml
+
+# Crawl delay (optional)
+Crawl-delay: 1
+
+# Allow all search engines to index the site
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Block access to sensitive files
+Disallow: /config.js
+Disallow: /.htaccess
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /README.md
+Disallow: /DEPLOYMENT_GUIDE.md
+Disallow: /GOOGLE_ADS_SETUP.md
+Disallow: /setup-api.js
+Disallow: /generate-cards.js
+Disallow: /generate-favicon.js
+Disallow: /download-rider-waite.js
+Disallow: /download-images.sh
+Disallow: /test.html
+Disallow: /API_KEY_SETUP.md
+Disallow: /deploy.sh
+Disallow: /google-ads-config.js
+Disallow: /config.example.js

@@ -1,0 +1,147 @@
+/**
+ * Dorothy Tarot Brand-Specific Styles
+ * Overrides default styles with purple/pink color scheme
+ */
+
+:root {
+    /* Primary brand colors - Purple theme */
+    --accent-gold: #8B4CBF;              /* Rich purple (replaces gold) */
+    --accent-gold-light: #A569D9;        /* Lighter purple */
+    --accent-gold-dark: #6A2C91;         /* Deeper purple */
+    --accent-gold-subtle: rgba(139, 76, 191, 0.1);
+    
+    /* Accent colors - Pink/magenta */
+    --accent-pink: #E91E63;               /* Vibrant pink */
+    --accent-pink-light: #F48FB1;
+    --accent-pink-dark: #C2185B;
+    
+    /* Theme color for mobile browsers */
+    --theme-color: #8B4CBF;
+}
+
+/* Update primary button colors */
+.magical-cta-btn,
+.hero-cta,
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+    border-color: var(--accent-gold-dark);
+}
+
+.magical-cta-btn:hover,
+.hero-cta:hover,
+.btn-primary:hover {
+    background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-pink-dark) 100%);
+    box-shadow: 0 4px 12px rgba(139, 76, 191, 0.3);
+}
+
+/* Update accent colors throughout */
+.spread-card.active,
+.pill-toggle-option.active {
+    border-color: var(--accent-gold);
+    background: var(--accent-gold-subtle);
+}
+
+.spread-card.active .card-icon,
+.pill-toggle-option.active .pill-icon {
+    color: var(--accent-gold);
+}
+
+/* Update link colors */
+a,
+.footer-link {
+    color: var(--accent-gold);
+}
+
+a:hover,
+.footer-link:hover {
+    color: var(--accent-gold-dark);
+}
+
+/* Update focus states */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 3px var(--accent-gold-subtle);
+}
+
+/* Update loading spinner */
+.spinner {
+    border-top-color: var(--accent-gold);
+    border-right-color: var(--accent-pink);
+}
+
+/* Update share button */
+.share-btn {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+}
+
+.share-btn:hover {
+    background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-pink-dark) 100%);
+}
+
+/* Update modal colors */
+.modal-content {
+    border-top: 3px solid var(--accent-gold);
+}
+
+.modal-title {
+    color: var(--accent-gold);
+}
+
+/* Update card interpretation headers */
+.interpretation h4 {
+    color: var(--accent-gold);
+}
+
+/* Update skip links */
+.skip-link {
+    background: var(--accent-gold);
+}
+
+/* Update stats cards */
+.stat-card {
+    border-left: 3px solid var(--accent-gold);
+}
+
+/* Update hero glow effects */
+.hero-glow {
+    background: radial-gradient(circle, rgba(139, 76, 191, 0.2) 0%, transparent 70%);
+}
+
+/* Update premium overlay */
+.premium-overlay {
+    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+}
+
+/* Update toast notifications */
+.toast {
+    border-left: 4px solid var(--accent-gold);
+}
+
+.toast.success {
+    background: var(--accent-gold-subtle);
+}
+
+/* Update dark mode toggle */
+.dark-mode-toggle {
+    color: var(--accent-gold);
+}
+
+.dark-mode-toggle:hover {
+    background: var(--accent-gold-subtle);
+}
+
+/* Update material icons in buttons */
+.material-icons {
+    color: inherit;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-cta,
+    .magical-cta-btn {
+        background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+    }
+}
+
