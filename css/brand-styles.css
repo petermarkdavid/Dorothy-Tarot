@@ -1,37 +1,99 @@
 /**
  * Dorothy Tarot Brand-Specific Styles
- * Overrides default styles with purple/pink color scheme
+ * Vibrant, inclusive design celebrating the LGBTI community
+ * Distinct from Ask Sian with unique colors, typography, and visual elements
  */
 
 :root {
-    /* Primary brand colors - Purple theme */
-    --accent-gold: #8B4CBF;              /* Rich purple (replaces gold) */
-    --accent-gold-light: #A569D9;        /* Lighter purple */
-    --accent-gold-dark: #6A2C91;         /* Deeper purple */
-    --accent-gold-subtle: rgba(139, 76, 191, 0.1);
+    /* Primary brand colors - Vibrant purple/pink gradient theme */
+    --accent-gold: #9B59B6;              /* Rich vibrant purple */
+    --accent-gold-light: #BB8FCE;        /* Lighter purple */
+    --accent-gold-dark: #7D3C98;         /* Deeper purple */
+    --accent-gold-subtle: rgba(155, 89, 182, 0.15);
     
-    /* Accent colors - Pink/magenta */
+    /* Accent colors - Vibrant pink/magenta */
     --accent-pink: #E91E63;               /* Vibrant pink */
     --accent-pink-light: #F48FB1;
     --accent-pink-dark: #C2185B;
     
+    /* Rainbow accent colors for LGBTI celebration */
+    --rainbow-red: #FF0018;
+    --rainbow-orange: #FFA52C;
+    --rainbow-yellow: #FFFF41;
+    --rainbow-green: #008018;
+    --rainbow-blue: #0000F9;
+    --rainbow-purple: #86007D;
+    
+    /* Additional vibrant colors */
+    --vibrant-purple: #9B59B6;
+    --vibrant-pink: #E91E63;
+    --vibrant-teal: #26A69A;
+    --vibrant-coral: #FF6B6B;
+    
     /* Theme color for mobile browsers */
-    --theme-color: #8B4CBF;
+    --theme-color: #9B59B6;
+    
+    /* Unique gradient combinations */
+    --gradient-primary: linear-gradient(135deg, #9B59B6 0%, #E91E63 50%, #26A69A 100%);
+    --gradient-rainbow: linear-gradient(90deg, 
+        #FF0018 0%, 
+        #FFA52C 16.66%, 
+        #FFFF41 33.33%, 
+        #008018 50%, 
+        #0000F9 66.66%, 
+        #86007D 83.33%, 
+        #9B59B6 100%);
+    --gradient-subtle-rainbow: linear-gradient(135deg, 
+        rgba(155, 89, 182, 0.1) 0%, 
+        rgba(233, 30, 99, 0.1) 25%, 
+        rgba(38, 166, 154, 0.1) 50%, 
+        rgba(255, 107, 107, 0.1) 75%, 
+        rgba(155, 89, 182, 0.1) 100%);
 }
 
-/* Update primary button colors */
+/* Update primary button colors - Vibrant gradient */
 .magical-cta-btn,
 .hero-cta,
 .btn-primary {
-    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
-    border-color: var(--accent-gold-dark);
+    background: var(--gradient-primary);
+    border: none;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 24px rgba(155, 89, 182, 0.4), 
+                0 4px 12px rgba(233, 30, 99, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.magical-cta-btn::before,
+.hero-cta::before,
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-rainbow);
+    opacity: 0.3;
+    transition: left 0.5s ease;
+}
+
+.magical-cta-btn:hover::before,
+.hero-cta:hover::before,
+.btn-primary:hover::before {
+    left: 100%;
 }
 
 .magical-cta-btn:hover,
 .hero-cta:hover,
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-pink-dark) 100%);
-    box-shadow: 0 4px 12px rgba(139, 76, 191, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(155, 89, 182, 0.5), 
+                0 6px 16px rgba(233, 30, 99, 0.4);
 }
 
 /* Update accent colors throughout */
@@ -71,13 +133,17 @@ select:focus {
     border-right-color: var(--accent-pink);
 }
 
-/* Update share button */
+/* Update share button - Vibrant gradient */
 .share-btn {
-    background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+    background: var(--gradient-primary);
+    box-shadow: 0 4px 16px rgba(155, 89, 182, 0.3);
 }
 
 .share-btn:hover {
-    background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-pink-dark) 100%);
+    background: var(--gradient-primary);
+    filter: brightness(1.1);
+    box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+    transform: translateY(-2px);
 }
 
 /* Update modal colors */
@@ -104,9 +170,29 @@ select:focus {
     border-left: 3px solid var(--accent-gold);
 }
 
-/* Update hero glow effects */
+/* Update hero glow effects - More vibrant and colorful */
 .hero-glow {
-    background: radial-gradient(circle, rgba(139, 76, 191, 0.2) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(155, 89, 182, 0.25) 0%, transparent 70%);
+    animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.hero-glow-one {
+    background: radial-gradient(circle, rgba(155, 89, 182, 0.3) 0%, rgba(233, 30, 99, 0.2) 50%, transparent 70%);
+}
+
+.hero-glow-two {
+    background: radial-gradient(circle, rgba(233, 30, 99, 0.3) 0%, rgba(38, 166, 154, 0.2) 50%, transparent 70%);
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
 }
 
 /* Update premium overlay */
@@ -137,11 +223,147 @@ select:focus {
     color: inherit;
 }
 
+/* Rainbow accent border for special elements */
+.hero-grid {
+    position: relative;
+}
+
+.hero-grid::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-rainbow);
+    border-radius: 2px 2px 0 0;
+    z-index: 10;
+}
+
+/* Enhanced hero title with gradient text */
+.hero-title {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+/* Vibrant stat cards */
+.stat-card {
+    border-left: 4px solid;
+    border-image: var(--gradient-primary) 1;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(251, 245, 255, 0.9) 100%);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(155, 89, 182, 0.2);
+    border-left-width: 6px;
+}
+
+.stat-value {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 700;
+}
+
+/* Enhanced spread cards with rainbow hover effect */
+.spread-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.spread-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-subtle-rainbow);
+    transition: left 0.5s ease;
+    z-index: 0;
+}
+
+.spread-card:hover::after {
+    left: 0;
+}
+
+.spread-card.active {
+    border: 2px solid;
+    border-image: var(--gradient-primary) 1;
+    box-shadow: 0 4px 16px rgba(155, 89, 182, 0.3);
+}
+
+/* Rainbow progress indicator */
+.progress-bar,
+.loading-bar {
+    background: var(--gradient-rainbow);
+    height: 4px;
+    border-radius: 2px;
+}
+
+/* Enhanced hero section background */
+.hero-section {
+    background: linear-gradient(135deg, 
+        rgba(251, 245, 255, 0.95) 0%, 
+        rgba(255, 240, 245, 0.9) 50%, 
+        rgba(240, 255, 250, 0.95) 100%);
+    position: relative;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-subtle-rainbow);
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Vibrant input focus states */
+.magical-input-card:focus-within {
+    border-color: var(--vibrant-purple);
+    box-shadow: 0 0 0 4px rgba(155, 89, 182, 0.15),
+                0 4px 16px rgba(155, 89, 182, 0.2);
+}
+
+/* Enhanced card interpretation sections */
+.interpretation {
+    border-left: 4px solid;
+    border-image: var(--gradient-primary) 1;
+    padding-left: 1.5rem;
+    margin-left: 0.5rem;
+}
+
+/* Rainbow divider accent */
+.section-divider {
+    height: 3px;
+    background: var(--gradient-rainbow);
+    border-radius: 2px;
+    margin: 2rem 0;
+    opacity: 0.6;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .hero-cta,
     .magical-cta-btn {
-        background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-pink) 100%);
+        background: var(--gradient-primary);
+    }
+    
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 3rem);
     }
 }
 

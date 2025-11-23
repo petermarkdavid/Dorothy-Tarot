@@ -32,15 +32,19 @@ window.BrandConfig = {
     // ============================================
     colors: {
         // Primary: Vibrant purple/magenta - welcoming and inclusive
-        primary: '#8B4CBF',           // Rich purple
-        primaryLight: '#A569D9',      // Lighter purple
-        primaryDark: '#6A2C91',       // Deeper purple
-        primarySubtle: 'rgba(139, 76, 191, 0.1)',
+        primary: '#9B59B6',           // Rich vibrant purple
+        primaryLight: '#BB8FCE',      // Lighter purple
+        primaryDark: '#7D3C98',       // Deeper purple
+        primarySubtle: 'rgba(155, 89, 182, 0.15)',
         
-        // Accent: Pink/magenta for warmth
+        // Accent: Vibrant pink/magenta for warmth and celebration
         accent: '#E91E63',            // Vibrant pink
         accentLight: '#F48FB1',
         accentDark: '#C2185B',
+        
+        // Additional vibrant colors for LGBTI celebration
+        vibrantTeal: '#26A69A',
+        vibrantCoral: '#FF6B6B',
         
         // Background colors
         background: '#ffffff',
@@ -59,7 +63,7 @@ window.BrandConfig = {
         borderStrong: '#c7c7cc',
         
         // Theme color for mobile browsers
-        themeColor: '#8B4CBF'
+        themeColor: '#9B59B6'
     },
     
     // ============================================
@@ -67,9 +71,9 @@ window.BrandConfig = {
     // ============================================
     // Configure these when setting up analytics
     analytics: {
-        ga4: 'G-XXXXXXXXXX',          // Google Analytics 4 property ID
-        adsense: 'ca-pub-XXXXXXXX',   // Google AdSense publisher ID
-        conversion: 'AW-XXXXXXXXX'    // Google Ads conversion tracking ID
+        ga4: 'G-XXXXXXXXXX',                    // Google Analytics 4 property ID
+        adsense: 'ca-pub-2743300891813268',     // Google AdSense publisher ID
+        conversion: 'AW-XXXXXXXXX'              // Google Ads conversion tracking ID
     },
     
     // ============================================
