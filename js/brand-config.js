@@ -71,7 +71,7 @@ window.BrandConfig = {
     // ============================================
     // Configure these when setting up analytics
     analytics: {
-        ga4: 'G-XXXXXXXXXX',                    // Google Analytics 4 property ID
+        ga4: 'G-FXZTKK2YP8',                    // Google Analytics 4 property ID
         adsense: 'ca-pub-2743300891813268',     // Google AdSense publisher ID
         conversion: 'AW-XXXXXXXXX'              // Google Ads conversion tracking ID
     },
