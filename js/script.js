@@ -106,6 +106,13 @@ class TarotReader {
     // Check for default API key (you can set this securely)
     getDefaultApiKey() {
         // Check if there's a global config with a default API key
+        if (window.BrandConfig && window.BrandConfig.openai && window.BrandConfig.openai.defaultApiKey) {
+            const configuredKey = window.BrandConfig.openai.defaultApiKey.trim();
+            if (!this.isPlaceholderApiKey(configuredKey)) {
+                return configuredKey;
+            }
+        }
+        // Fallback to AskSianConfig for backward compatibility
         if (window.AskSianConfig && window.AskSianConfig.defaultApiKey) {
             const configuredKey = window.AskSianConfig.defaultApiKey.trim();
             if (!this.isPlaceholderApiKey(configuredKey)) {

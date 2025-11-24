@@ -5,11 +5,25 @@ class ChatGPTTarotInterpreter {
         this.baseURL = 'https://api.openai.com/v1/chat/completions';
         this.responseCache = new Map(); // Cache responses to avoid duplicate API calls
         this.cacheExpiry = 24 * 60 * 60 * 1000; // 24 hours
+    }
+
+    getSystemPrompt() {
+        // Get reader name from brand config, default to "Dorothy"
+        const readerName = (window.BrandConfig && window.BrandConfig.readerName) || 'Dorothy';
+        const siteName = (window.BrandConfig && window.BrandConfig.siteName) || 'Dorothy Tarot';
         
+        return `You are ${readerName}, a warm, experienced, and inclusive tarot reader with decades of wisdom. You provide detailed, compassionate readings that are both insightful and encouraging, specifically designed for the LGBTI community. You create a safe, welcoming space where everyone can explore their path with confidence and pride. Write in a friendly, conversational tone as if speaking to a close friend. Be thorough in your interpretations while remaining practical and supportive. Use "you" language and always end on an encouraging note. Celebrate diversity, acknowledge unique journeys, and provide guidance that honors each person's authentic self.`;
     }
 
     getDefaultApiKey() {
         // Check if there's a global config with a default API key
+        if (window.BrandConfig && window.BrandConfig.openai && window.BrandConfig.openai.defaultApiKey) {
+            const configuredKey = window.BrandConfig.openai.defaultApiKey.trim();
+            if (!this.isPlaceholderApiKey(configuredKey)) {
+                return configuredKey;
+            }
+        }
+        // Fallback to AskSianConfig for backward compatibility
         if (window.AskSianConfig && window.AskSianConfig.defaultApiKey) {
             const configuredKey = window.AskSianConfig.defaultApiKey.trim();
             if (!this.isPlaceholderApiKey(configuredKey)) {
@@ -93,7 +107,7 @@ class ChatGPTTarotInterpreter {
                     messages: [
                         {
                             role: 'system',
-                            content: 'You are Sian, a warm and experienced tarot reader with decades of wisdom. You provide detailed, compassionate readings that are both insightful and encouraging. Write in a friendly, conversational tone as if speaking to a close friend. Be thorough in your interpretations while remaining practical and supportive. Use "you" language and always end on an encouraging note.'
+                            content: this.getSystemPrompt()
                         },
                         {
                             role: 'user',
@@ -124,7 +138,8 @@ class ChatGPTTarotInterpreter {
     }
 
     createTarotPrompt(question, cards, spread, userName = null, userStarsign = null) {
-        let prompt = `You are Sian, a warm and insightful tarot reader with decades of experience. The most important part of this reading is to directly answer this specific question: "${question}"\n`;
+        const readerName = (window.BrandConfig && window.BrandConfig.readerName) || 'Dorothy';
+        let prompt = `You are ${readerName}, a warm and insightful tarot reader with decades of experience, providing inclusive guidance for the LGBTI community. The most important part of this reading is to directly answer this specific question: "${question}"\n`;
         
         if (userName) prompt += `The querent's name is ${userName}.\n`;
         if (userStarsign) prompt += `The querent's star sign is ${userStarsign}.\n`;
@@ -203,7 +218,7 @@ Write in a warm, conversational tone as if speaking directly to a close friend. 
                     messages: [
                         {
                             role: 'system',
-                            content: 'You are Sian, a warm and experienced tarot reader with decades of wisdom. You provide detailed, compassionate readings that are both insightful and encouraging. Write in a friendly, conversational tone as if speaking to a close friend. Be thorough in your interpretations while remaining practical and supportive. Use "you" language and always end on an encouraging note.'
+                            content: this.getSystemPrompt()
                         },
                         {
                             role: 'user',
@@ -234,7 +249,8 @@ Write in a warm, conversational tone as if speaking directly to a close friend. 
     }
 
     createGeneralTarotPrompt(cards, spread, userName = null, userStarsign = null) {
-        let prompt = `You are Sian, a warm and insightful tarot reader with decades of experience. Provide a detailed, compassionate general life reading`;
+        const readerName = (window.BrandConfig && window.BrandConfig.readerName) || 'Dorothy';
+        let prompt = `You are ${readerName}, a warm and insightful tarot reader with decades of experience, providing inclusive guidance for the LGBTI community. Provide a detailed, compassionate general life reading`;
         
         if (userName) prompt += ` for ${userName}`;
         if (userStarsign) prompt += ` (${userStarsign})`;
@@ -335,7 +351,7 @@ Write in a warm, conversational tone as if speaking directly to a close friend w
                     messages: [
                         {
                             role: 'system',
-                            content: 'You are Sian, a warm and experienced tarot reader with decades of wisdom. You provide detailed, compassionate readings that are both insightful and encouraging. Write in a friendly, conversational tone as if speaking to a close friend. Be thorough in your interpretations while remaining practical and supportive. Use "you" language and always end on an encouraging note.'
+                            content: this.getSystemPrompt()
                         },
                         {
                             role: 'user',
@@ -374,8 +390,8 @@ Write in a warm, conversational tone as if speaking directly to a close friend w
             month: 'long', 
             day: 'numeric' 
         });
-        
-        let prompt = `You are Sian, a warm and insightful tarot reader with decades of experience. Provide a detailed, compassionate daily horoscope reading for ${today}`;
+        const readerName = (window.BrandConfig && window.BrandConfig.readerName) || 'Dorothy';
+        let prompt = `You are ${readerName}, a warm and insightful tarot reader with decades of experience, providing inclusive guidance for the LGBTI community. Provide a detailed, compassionate daily horoscope reading for ${today}`;
         
         if (userName) prompt += ` for ${userName}`;
         if (userStarsign) prompt += ` (${userStarsign})`;
@@ -475,7 +491,7 @@ Write in a warm, conversational tone as if speaking directly to a close friend w
                     messages: [
                         {
                             role: 'system',
-                            content: 'You are Sian, a warm and experienced tarot reader with decades of wisdom. You provide detailed, compassionate readings that are both insightful and encouraging. Write in a friendly, conversational tone as if speaking to a close friend. Be thorough in your interpretations while remaining practical and supportive. Use "you" language and always end on an encouraging note.'
+                            content: this.getSystemPrompt()
                         },
                         {
                             role: 'user',

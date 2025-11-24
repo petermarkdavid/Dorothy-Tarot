@@ -548,8 +548,12 @@
     
     <!-- Supabase Integration -->
     <script>
+        // Check BrandConfig first, then AskSianConfig for backward compatibility
+        const config = window.BrandConfig || window.AskSianConfig || {};
+        const features = config.features || {};
+        
         // Load Supabase scripts only if features are enabled
-        if (window.AskSianConfig?.features?.supabaseIntegration) {
+        if (features.supabaseIntegration) {
             const supabaseScript = document.createElement('script');
             supabaseScript.src = 'https://unpkg.com/@supabase/supabase-js@2';
             document.head.appendChild(supabaseScript);
@@ -560,16 +564,20 @@
                 document.head.appendChild(configScript);
                 
                 configScript.onload = function() {
-                    if (window.AskSianConfig?.features?.readingStorage) {
+                    if (features.readingStorage) {
                         const storageScript = document.createElement('script');
                         storageScript.src = 'js/reading-storage-supabase.js';
                         document.head.appendChild(storageScript);
                     }
                 };
             };
+            
+            supabaseScript.onerror = function() {
+                console.error('Failed to load Supabase client library');
+            };
         }
         
-        if (window.AskSianConfig?.features?.emailSharing) {
+        if (features.emailSharing) {
             const emailScript = document.createElement('script');
             emailScript.src = 'js/email-service.js';
             document.head.appendChild(emailScript);
