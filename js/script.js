@@ -374,13 +374,19 @@ class TarotReader {
             }
             document.getElementById('apiKey').value = savedKey;
             this.chatGPTInterpreter.saveApiKey(savedKey);
+            console.log('✅ Loaded API key from localStorage');
         } else {
             // No user key saved, try to use default key
             const defaultKey = this.getDefaultApiKey();
             if (defaultKey) {
-                console.log('Using default API key for AI readings');
+                console.log('✅ Using default API key from config for AI readings');
                 this.chatGPTInterpreter.saveApiKey(defaultKey);
                 // Don't show the key in the input field for security
+            } else {
+                console.warn('⚠️ No API key found. AI interpretations will not be available.');
+                console.log('To enable AI interpretations:');
+                console.log('1. Enter your API key in the UI, OR');
+                console.log('2. Add defaultApiKey to brand-config.js');
             }
         }
     }
@@ -2394,11 +2400,26 @@ class TarotReader {
         const loadingIndicator = document.getElementById('loadingIndicator');
         const interpretationDiv = document.getElementById('interpretation');
         
+        // Check if API key is available
+        if (!this.chatGPTInterpreter.hasApiKey()) {
+            console.error('❌ No API key available for AI interpretation');
+            console.log('Available sources:', {
+                localStorage: !!localStorage.getItem('openai_api_key'),
+                brandConfig: !!(window.BrandConfig && window.BrandConfig.openai && window.BrandConfig.openai.defaultApiKey),
+                askSianConfig: !!(window.AskSianConfig && window.AskSianConfig.openai && window.AskSianConfig.openai.defaultApiKey)
+            });
+            this.showToast('No API key found. Please enter your OpenAI API key in the settings above, or add it to brand-config.js', 'error');
+            // Fall back to regular interpretation
+            await this.generateInterpretation(question);
+            return;
+        }
+        
         // Show loading indicator
         loadingIndicator.classList.remove('hidden');
         interpretationDiv.innerHTML = '';
         
         try {
+            console.log('🤖 Starting AI interpretation...');
             const spread = tarotSpreads[this.currentSpread];
             const aiInterpretation = await this.chatGPTInterpreter.generateTarotInterpretation(question, this.drawnCards, spread, this.userName, this.userStarsign);
             
@@ -2414,8 +2435,9 @@ class TarotReader {
                 personalInfoHTML += `<p><strong>Reading for:</strong> ${this.userName}</p>`;
             }
             
+            const readerName = getBrandConfig().readerName || 'Dorothy';
             interpretationDiv.innerHTML = `
-                <h4>🔮 ${getBrandConfig().readerName || 'Sian'}'s Reading</h4>
+                <h4>🔮 ${readerName}'s AI-Powered Reading</h4>
                 <p><strong>Your Question:</strong> "${question}"</p>
                 <p><strong>Spread:</strong> ${spread.name}</p>
                 ${personalInfoHTML}
