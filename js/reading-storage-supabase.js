@@ -29,10 +29,19 @@ class ReadingStorageSupabase {
     }
 
     /**
-     * Generate a unique reading ID (UUID-style)
+     * Generate a unique reading ID (UUID format for Supabase compatibility)
      */
     generateReadingId() {
-        return 'reading_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        // Generate a UUID v4 compatible string
+        // Format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+        return uuidv4();
     }
 
     /**
@@ -44,6 +53,7 @@ class ReadingStorageSupabase {
         const readingId = this.generateReadingId();
         
         // Transform reading data to match database schema
+        // Note: Supabase will auto-generate UUID if we don't provide id, but we need it for retrieval
         const reading = {
             id: readingId,
             reading_type: readingData.readingType || 'general',
@@ -64,16 +74,35 @@ class ReadingStorageSupabase {
         }
 
         try {
+            console.log('Saving reading to Supabase:', {
+                id: readingId,
+                reading_type: reading.reading_type,
+                spread_name: reading.spread_name,
+                cards_count: reading.cards.length,
+                has_interpretation: !!reading.interpretation
+            });
+            
             const { data, error } = await this.supabase
                 .from('readings')
-                .insert([reading]);
+                .insert([reading])
+                .select(); // Return the inserted row
 
             if (error) {
-                console.error('Failed to save reading to Supabase:', error);
+                console.error('❌ Failed to save reading to Supabase:', error);
+                console.error('Error details:', {
+                    message: error.message,
+                    details: error.details,
+                    hint: error.hint,
+                    code: error.code
+                });
+                // Fall back to localStorage
                 return this.saveReadingFallback(reading);
             }
 
-            console.log('Reading saved to Supabase successfully:', readingId);
+            console.log('✅ Reading saved to Supabase successfully:', readingId);
+            if (data && data[0]) {
+                console.log('Inserted reading data:', data[0]);
+            }
             
             // Also save to localStorage as backup
             this.saveReadingFallback(reading);
