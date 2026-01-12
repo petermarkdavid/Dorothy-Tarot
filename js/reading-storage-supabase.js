@@ -53,7 +53,6 @@ class ReadingStorageSupabase {
         const readingId = this.generateReadingId();
         
         // Transform reading data to match database schema
-        // Note: Supabase will auto-generate UUID if we don't provide id, but we need it for retrieval
         const reading = {
             id: readingId,
             reading_type: readingData.readingType || 'general',
@@ -82,8 +81,9 @@ class ReadingStorageSupabase {
                 has_interpretation: !!reading.interpretation
             });
             
+            const tableName = window.SUPABASE_CONFIG?.tables?.readings || 'readings';
             const { data, error } = await this.supabase
-                .from('readings')
+                .from(tableName)
                 .insert([reading])
                 .select(); // Return the inserted row
 
@@ -134,6 +134,17 @@ class ReadingStorageSupabase {
     }
 
     /**
+     * Check if a reading ID is in the old format (not UUID)
+     * @param {string} readingId - Reading ID to check
+     * @returns {boolean} - True if old format
+     */
+    isOldFormatId(readingId) {
+        // Old format: reading_1234567890_abc123
+        // UUID format: xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+        return readingId && readingId.startsWith('reading_') && !readingId.includes('-');
+    }
+
+    /**
      * Get a specific reading by ID
      * @param {string} readingId - Reading ID
      * @returns {Promise<Object|null>} - Reading data or null if not found
@@ -142,6 +153,13 @@ class ReadingStorageSupabase {
         if (!readingId) {
             console.error('No reading ID provided to getReading');
             return null;
+        }
+
+        // Old-format IDs can only exist in localStorage (not in Supabase UUID column)
+        // So skip Supabase lookup for old-format IDs
+        if (this.isOldFormatId(readingId)) {
+            console.log('Old-format reading ID detected, checking localStorage only:', readingId);
+            return this.getReadingFallback(readingId);
         }
 
         if (this.fallbackMode) {

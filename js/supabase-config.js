@@ -7,13 +7,17 @@
 const SUPABASE_CONFIG = (window.BrandConfig && window.BrandConfig.supabase) || 
                         (window.AskSianConfig && window.AskSianConfig.supabase) || {
     // Fallback default (should not be used if BrandConfig is loaded)
-    url: 'https://your-project-id.supabase.co',
-    anonKey: 'your-anon-key-here',
+    url: 'https://eydmgvneewccqfylcsdh.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZG1ndm5lZXdjY3FmeWxjc2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMzE5MDQsImV4cCI6MjA3NTcwNzkwNH0.LbMZ5dEQNF7tfw0JsrSo77qYa4eIwHLAt_IDZuDY28s',
+    
+    // Database table names
     tables: {
         readings: 'readings',
         email_logs: 'email_logs',
         analytics: 'analytics'
     },
+    
+    // Edge function endpoints
     functions: {
         sendEmail: 'send-email',
         generateShareUrl: 'generate-share-url'
@@ -52,10 +56,10 @@ function initializeSupabase() {
         
         // Create Supabase client
         supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
-        console.log('Supabase client initialized successfully');
+        console.log('✅ Supabase client initialized successfully');
         return supabase;
     } catch (error) {
-        console.error('Failed to initialize Supabase:', error);
+        console.error('❌ Failed to initialize Supabase:', error);
         return null;
     }
 }

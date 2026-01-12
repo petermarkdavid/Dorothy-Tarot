@@ -1,14 +1,19 @@
 // Google AdSense Auto Ads Configuration
 // Auto ads automatically place ads on your site without manual ad units
 
+// Function to detect if device is mobile
+function isMobileDevice() {
+    return window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
 const GOOGLE_ADS_CONFIG = {
     // Your AdSense Publisher ID
     publisherId: 'ca-pub-2743300891813268',
     
-    // Auto ads configuration
+    // Auto ads configuration - disabled on mobile
     autoAds: {
-        enabled: true,
-        pageLevelAds: true
+        enabled: !isMobileDevice(),
+        pageLevelAds: !isMobileDevice()
     },
     
     // Ad Settings
@@ -18,6 +23,53 @@ const GOOGLE_ADS_CONFIG = {
         enableLazyLoading: true
     }
 };
+
+// Some AdSense previews inject a `.grippy-host` overlay with an inline `left: 0px`
+// (sometimes even `!important`), which can cause unexpected horizontal shifts.
+// The only reliable fix in that case is to remove the inline `left` property.
+const GRIPPY_HOST_OBSERVERS = new WeakMap();
+
+function clearGrippyHostLeft(el) {
+    if (!(el instanceof HTMLElement)) return;
+
+    const left = el.style.getPropertyValue('left');
+    if (left) {
+        el.style.removeProperty('left');
+    }
+}
+
+function fixGrippyHostLeft() {
+    const hosts = document.querySelectorAll('ins.adsbygoogle.adsbygoogle-noablate > div.grippy-host');
+    hosts.forEach((host) => {
+        clearGrippyHostLeft(host);
+
+        if (!GRIPPY_HOST_OBSERVERS.has(host)) {
+            const observer = new MutationObserver(() => clearGrippyHostLeft(host));
+            observer.observe(host, { attributes: true, attributeFilter: ['style'] });
+            GRIPPY_HOST_OBSERVERS.set(host, observer);
+        }
+    });
+}
+
+function setupGrippyHostLeftFix() {
+    // Fix anything already on the page.
+    fixGrippyHostLeft();
+
+    // Watch for AdSense injecting/replacing the host later.
+    const bodyObserver = new MutationObserver((mutations) => {
+        for (const mutation of mutations) {
+            for (const node of mutation.addedNodes) {
+                if (!(node instanceof Element)) continue;
+                if (node.classList?.contains('grippy-host') || node.querySelector?.('div.grippy-host')) {
+                    fixGrippyHostLeft();
+                    return;
+                }
+            }
+        }
+    });
+
+    bodyObserver.observe(document.body, { childList: true, subtree: true });
+}
 
 // Function to validate auto ads configuration
 function validateAutoAds() {
@@ -205,7 +257,38 @@ function initializeAdSense() {
 
 // Initialize auto ads when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Validate auto ads configuration
+    // Check if mobile device - if so, disable ads completely
+    if (isMobileDevice()) {
+        console.log('Mobile device detected - AdSense disabled');
+        
+        // Hide all ad containers
+        const adContainers = document.querySelectorAll('.google-ad-header, .google-ad-banner, .google-ad-post-reading, .google-ad-sidebar, .in-content-ad, .adsbygoogle, [data-adsbygoogle-status]');
+        adContainers.forEach(container => {
+            container.style.display = 'none';
+            container.style.visibility = 'hidden';
+            container.style.opacity = '0';
+            container.style.height = '0';
+            container.style.width = '0';
+            container.style.margin = '0';
+            container.style.padding = '0';
+        });
+        
+        // Disable AdSense
+        if (window.adsbygoogle) {
+            window.adsbygoogle = null;
+        }
+        
+        // Prevent auto ads from initializing
+        GOOGLE_ADS_CONFIG.autoAds.enabled = false;
+        GOOGLE_ADS_CONFIG.autoAds.pageLevelAds = false;
+        
+        return;
+    }
+
+    // Desktop only: fix AdSense injected overlay positioning issues.
+    setupGrippyHostLeftFix();
+    
+    // Validate auto ads configuration (desktop only)
     validateAutoAds();
     
     // Check auto ads status
