@@ -574,17 +574,21 @@ class TarotReader {
 
         const textarea = document.getElementById('userQuestion');
 
-        // Only update the number, keep "/75 characters" intact
+        // Only update the number; the "/{max} characters" suffix is in HTML.
         charCountValue.textContent = String(charCount);
         
         // Update styling based on character count
         if (counterDiv) counterDiv.classList.remove('warning', 'danger');
         if (textarea) textarea.classList.remove('warning', 'danger');
         
-        if (charCount >= 70) {
+        const max = textarea?.maxLength || 125;
+        const warningThreshold = Math.max(0, max - 15);
+        const dangerThreshold = Math.max(0, max - 5);
+
+        if (charCount >= dangerThreshold) {
             if (counterDiv) counterDiv.classList.add('danger');
             if (textarea) textarea.classList.add('danger');
-        } else if (charCount >= 60) {
+        } else if (charCount >= warningThreshold) {
             if (counterDiv) counterDiv.classList.add('warning');
             if (textarea) textarea.classList.add('warning');
         }

@@ -6180,6 +6180,11 @@ textarea:focus,
     display: none !important;
 }
 
+.question-input-group:focus-within .input-icon.material-icons {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
 .input-group input,
 .question-input-group textarea {
     border-radius: var(--ds-radius-control);
@@ -6190,6 +6195,7 @@ textarea:focus,
 
 /* Question textarea: add a bit more breathing room on the right edge. */
 #userQuestion {
+    padding-left: 52px; /* keep text clear of the overlaid icon */
     padding-right: 26px;
 }
 
