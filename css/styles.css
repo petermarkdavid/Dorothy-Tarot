@@ -6191,7 +6191,8 @@ textarea:focus,
     transform: scale(0.98);
 }
 
-.question-input-group.is-typing .floating-label {
+/* Hide the floating label while typing (more specific than legacy `.floating-label` rules). */
+.question-input-group.is-typing textarea + .floating-label {
     display: none !important;
 }
 
