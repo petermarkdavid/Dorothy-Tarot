@@ -5667,11 +5667,14 @@ button,
 .title {
     font-family: var(--ds-font-display);
     letter-spacing: -0.01em;
+    color: var(--text-primary);
+    text-shadow: none;
 }
 
 .subtitle {
     font-family: var(--ds-font-sans);
     color: var(--text-muted);
+    font-style: normal;
 }
 
 /* Surfaces (cards) */
@@ -5689,6 +5692,179 @@ button,
     border: 1px solid var(--ds-border);
     border-radius: var(--ds-radius-card);
     box-shadow: var(--ds-shadow);
+}
+
+/* ======================================================================
+   SHARE A READING + READING OUTPUT — design system alignment
+   ====================================================================== */
+
+.share-reading-section {
+    margin: 24px 0;
+    padding: 16px;
+    text-align: center;
+    background: var(--ds-surface-muted);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    box-shadow: var(--ds-shadow);
+    backdrop-filter: none !important;
+    animation: none !important;
+}
+
+.share-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.share-btn {
+    background: var(--ds-primary) !important;
+    border-color: var(--ds-primary) !important;
+    box-shadow: var(--ds-shadow-soft) !important;
+    overflow: visible !important;
+}
+
+.share-btn::before {
+    display: none !important;
+    content: none !important;
+}
+
+.share-icon {
+    filter: none !important;
+}
+
+.share-text {
+    letter-spacing: 0 !important;
+}
+
+.share-modal .modal-backdrop {
+    background: rgba(15, 23, 42, 0.62);
+    backdrop-filter: blur(10px);
+}
+
+.share-modal .modal-content {
+    background: var(--ds-surface) !important;
+    border: 1px solid var(--ds-border) !important;
+    border-radius: var(--ds-radius-card) !important;
+    box-shadow: var(--ds-shadow) !important;
+    backdrop-filter: none !important;
+}
+
+.share-modal .modal-header {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--ds-border);
+}
+
+.share-modal .modal-title {
+    color: var(--text-primary);
+    font-family: var(--ds-font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.share-modal .modal-close-btn {
+    background: var(--ds-surface-muted);
+    border: 1px solid var(--ds-border);
+    color: var(--text-secondary);
+    box-shadow: none;
+}
+
+.share-modal .modal-close-btn:hover {
+    background: rgba(241, 245, 249, 0.9);
+    border-color: var(--ds-border-strong);
+    color: var(--text-primary);
+    transform: none;
+}
+
+.share-modal .modal-body {
+    padding: 20px;
+}
+
+.share-modal .modal-footer {
+    padding: 16px 20px;
+    border-top: 1px solid var(--ds-border);
+    background: var(--ds-surface);
+}
+
+.reading-preview {
+    background: var(--ds-surface-muted);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    box-shadow: none;
+}
+
+.reading-preview h3,
+.share-success h3,
+.share-error h3 {
+    font-family: var(--ds-font-sans);
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+}
+
+.preview-details p,
+.share-success p,
+.share-error p {
+    color: var(--text-secondary);
+}
+
+.preview-details strong {
+    color: var(--text-primary);
+}
+
+.preview-card {
+    background: var(--ds-surface) !important;
+    border: 1px solid var(--ds-border) !important;
+    color: var(--text-secondary) !important;
+    box-shadow: var(--ds-shadow-soft) !important;
+}
+
+.form-label {
+    color: var(--text-secondary) !important;
+    font-family: var(--ds-font-sans) !important;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.required {
+    color: var(--ds-primary);
+}
+
+.char-counter {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.error-message {
+    color: #b91c1c;
+}
+
+.reading-area {
+    background: var(--ds-surface) !important;
+    border: 1px solid var(--ds-border) !important;
+    border-radius: var(--ds-radius-card) !important;
+    box-shadow: var(--ds-shadow) !important;
+    backdrop-filter: none !important;
+    padding: 24px;
+}
+
+.reading-area h3 {
+    font-family: var(--ds-font-display);
+    color: var(--text-primary);
+    margin-top: 0;
+}
+
+.reading-area .interpretation {
+    text-align: left;
+    background: var(--ds-surface-muted);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    padding: 16px;
+    margin-top: 16px;
+}
+
+.reading-area .card {
+    border: 1px solid var(--ds-border) !important;
+    box-shadow: var(--ds-shadow-soft) !important;
 }
 
 /* SEO content: long-form marketing copy should feel like a standard surface card.
