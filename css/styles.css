@@ -825,7 +825,7 @@ body {
 }
 
 .api-note a {
-    color: var(--accent-gold);
+    color: var(--ds-primary);
     text-decoration: none;
 }
 
@@ -840,36 +840,20 @@ body {
     text-align: center;
     position: relative;
     z-index: 2;
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 255, 255, 0.8));
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    border-radius: 20px;
-    padding: 40px 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(212, 175, 55, 0.1);
-    backdrop-filter: blur(10px);
-    position: relative;
-    overflow: hidden;
+    /* Design-system surface (replaces legacy gold/glass treatment) */
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    padding: 32px 24px;
+    box-shadow: var(--ds-shadow);
+    backdrop-filter: none;
+    overflow: visible;
 }
 
-.question-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, transparent 30%, rgba(212, 175, 55, 0.05) 50%, transparent 70%);
-    pointer-events: none;
-    z-index: -1;
-}
-
+.question-section::before,
 .question-section::after {
-    content: '🔮';
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    font-size: 2rem;
-    opacity: 0.3;
-    z-index: -1;
+    display: none;
+    content: none;
 }
 
 
@@ -882,79 +866,83 @@ body {
 }
 
 .content-section h1 {
-    font-family: 'Cinzel', serif;
-    color: var(--accent-gold);
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-align: center;
+    font-family: var(--ds-font-sans);
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin-bottom: 16px;
+    text-align: left;
+    letter-spacing: -0.02em;
 }
 
 .content-section h2 {
-    font-family: 'Cinzel', serif;
-    color: var(--accent-gold);
-    font-size: 1.8rem;
-    margin: 40px 0 20px 0;
-    border-bottom: 2px solid var(--border-light);
+    font-family: var(--ds-font-sans);
+    color: var(--text-primary);
+    font-size: 1.35rem;
+    margin: 24px 0 12px 0;
+    border-bottom: 1px solid var(--ds-border);
     padding-bottom: 10px;
+    letter-spacing: -0.01em;
 }
 
 .content-section h3 {
-    font-family: 'Cinzel', serif;
-    color: var(--accent-gold);
-    font-size: 1.4rem;
-    margin: 30px 0 15px 0;
+    font-family: var(--ds-font-sans);
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    margin: 18px 0 10px 0;
+    letter-spacing: -0.01em;
 }
 
 .content-section p {
-    color: #2c2c2c;
-    margin-bottom: 20px;
-    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    font-size: 1rem;
 }
 
 .content-section ul {
-    color: #2c2c2c;
-    margin-bottom: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
     padding-left: 30px;
 }
 
 .content-section li {
     margin-bottom: 10px;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .content-section a {
-    color: var(--accent-gold);
+    color: var(--ds-primary);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-bottom 0.3s ease;
 }
 
 .content-section a:hover {
-    border-bottom: 1px solid #d4af37;
+    border-bottom: 1px solid var(--ds-primary);
 }
 
 .cta-section {
     text-align: center;
     margin: 40px 0;
     padding: 30px;
-    background: rgba(255, 255, 255, 0.7);
-    border-radius: 20px;
-    border: 2px solid rgba(212, 175, 55, 0.3);
-    backdrop-filter: blur(5px);
+    background: var(--ds-surface-muted);
+    border-radius: var(--ds-radius-card);
+    border: 1px solid var(--ds-border);
+    box-shadow: var(--ds-shadow);
+    backdrop-filter: none;
 }
 
 .cta-section h3 {
-    color: #d4af37;
-    font-family: 'Cinzel', serif;
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    color: var(--text-primary);
+    font-family: var(--ds-font-display);
+    font-size: 1.35rem;
+    margin-bottom: 10px;
+    text-shadow: none;
 }
 
 .cta-section p {
-    color: #2c2c2c;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 14px;
 }
 
 .draw-btn {
@@ -2823,23 +2811,29 @@ body {
 /* Error page styles */
 .error-page {
     text-align: center;
-    max-width: 800px;
+    max-width: 860px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 28px 22px;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    box-shadow: var(--ds-shadow);
 }
 
 .error-page h2 {
-    color: var(--accent-gold);
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    font-family: 'Cinzel', serif;
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin-bottom: 14px;
+    font-family: var(--ds-font-display);
+    letter-spacing: -0.02em;
 }
 
 .error-page h3 {
-    color: var(--accent-gold);
-    font-size: 1.5rem;
-    margin: 30px 0 15px 0;
-    font-family: 'Cinzel', serif;
+    color: var(--text-primary);
+    font-size: 1.15rem;
+    margin: 18px 0 10px 0;
+    font-family: var(--ds-font-sans);
+    letter-spacing: -0.01em;
 }
 
 .error-page ul {
@@ -2851,7 +2845,7 @@ body {
 
 .error-page li {
     margin-bottom: 8px;
-    color: #2c2c2c;
+    color: var(--text-secondary);
 }
 
 .popular-links {
@@ -2875,7 +2869,7 @@ body {
 
 .popular-links .draw-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    box-shadow: var(--ds-shadow);
 }
 
 /* Mobile responsive for error pages */
@@ -3082,33 +3076,7 @@ body {
    ======================================== */
 
 /* Natural Color Palette */
-:root {
-    /* Airbnb-inspired Autumn Color Palette */
-    --autumn-orange: #FF6B35;
-    --autumn-rust: #D2691E;
-    --autumn-burgundy: #8B0000;
-    --autumn-brown: #8B4513;
-    --autumn-copper: #B87333;
-    --autumn-cream: #FFF8DC;
-    --autumn-tan: #D2B48C;
-    --autumn-maroon: #800000;
-    --autumn-gold: #CD853F;
-    --autumn-red: #DC143C;
-    
-    /* Neutral Colors */
-    --airbnb-white: #FFFFFF;
-    --airbnb-light-gray: #F7F7F7;
-    --airbnb-gray: #717171;
-    --airbnb-dark-gray: #222222;
-    --airbnb-black: #000000;
-    
-    /* Transparent Colors */
-    --glass-white: rgba(255, 255, 255, 0.9);
-    --glass-light: rgba(255, 255, 255, 0.1);
-    --shadow-light: rgba(0, 0, 0, 0.1);
-    --shadow-medium: rgba(0, 0, 0, 0.15);
-    --shadow-dark: rgba(0, 0, 0, 0.25);
-}
+/* (tokens moved to the design-system :root block at the end of the file) */
 
 /* Hero Section Enhancements */
 .hero-section {
@@ -4235,38 +4203,39 @@ body.dark-mode .dark-mode-toggle:hover {
         text-align: center;
         margin: 30px 0;
         padding: 20px;
-        background: rgba(26, 26, 46, 0.1);
-        border-radius: 15px;
-        border: 1px solid rgba(212, 175, 55, 0.2);
+        background: var(--ds-surface-muted);
+        border-radius: var(--ds-radius-card);
+        border: 1px solid var(--ds-border);
+        box-shadow: var(--ds-shadow);
     }
     
     .cta-section h3 {
-        color: #d4af37;
+        color: var(--text-primary);
         font-size: 1.3rem;
         margin-bottom: 10px;
     }
     
     .cta-section p {
-        color: #2c2c2c;
+        color: var(--text-secondary);
         margin-bottom: 15px;
     }
     
     .draw-btn {
         display: inline-block;
         padding: 12px 25px;
-        background: linear-gradient(135deg, #d4af37, #f4d03f);
-        color: #1a1a2e;
+        background: var(--ds-primary);
+        color: #ffffff;
         text-decoration: none;
         border-radius: 25px;
         font-weight: 600;
-        font-family: 'Cormorant Garamond', serif;
+        font-family: var(--ds-font-sans);
         font-size: 1.1rem;
         transition: all 0.3s ease;
     }
     
     .draw-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        box-shadow: var(--ds-shadow);
     }
 }
 
@@ -5628,6 +5597,30 @@ body.dark-mode .share-modal .modal-content {
     /* Typography */
     --ds-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
     --ds-font-display: "Cinzel", ui-serif, Georgia, serif;
+
+    /* Legacy palette tokens still referenced by older rules (kept for compatibility). */
+    --autumn-orange: #FF6B35;
+    --autumn-rust: #D2691E;
+    --autumn-burgundy: #8B0000;
+    --autumn-brown: #8B4513;
+    --autumn-copper: #B87333;
+    --autumn-cream: #FFF8DC;
+    --autumn-tan: #D2B48C;
+    --autumn-maroon: #800000;
+    --autumn-gold: #CD853F;
+    --autumn-red: #DC143C;
+
+    --airbnb-white: #FFFFFF;
+    --airbnb-light-gray: #F7F7F7;
+    --airbnb-gray: #717171;
+    --airbnb-dark-gray: #222222;
+    --airbnb-black: #000000;
+
+    --glass-white: rgba(255, 255, 255, 0.9);
+    --glass-light: rgba(255, 255, 255, 0.1);
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --shadow-dark: rgba(0, 0, 0, 0.25);
 }
 
 body {
