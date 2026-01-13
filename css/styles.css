@@ -2111,43 +2111,47 @@ body {
 /* Error Pages */
 .error-page {
     text-align: center;
-    padding: 60px 20px;
-    max-width: 600px;
+    max-width: 860px;
     margin: 0 auto;
+    padding: 28px 22px;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    box-shadow: var(--ds-shadow);
 }
 
 .error-page h2 {
-    font-family: 'Cinzel', serif;
-    font-size: 2.5rem;
-    color: var(--accent-gold);
-    margin-bottom: 30px;
+    color: var(--text-primary);
+    font-size: 2rem;
+    margin-bottom: 14px;
+    font-family: var(--ds-font-display);
+    letter-spacing: -0.02em;
 }
 
 .error-page p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #2c2c2c;
-    margin-bottom: 20px;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
 }
 
 .error-page .draw-btn {
     display: inline-block;
     margin-top: 30px;
     padding: 15px 30px;
-    background: linear-gradient(135deg, #d4af37, #b8941f);
-    color: #1a1a2e;
+    background: var(--ds-primary);
+    color: #ffffff;
     text-decoration: none;
     border-radius: 25px;
     font-weight: 600;
-    font-size: 1.1rem;
+    font-size: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    box-shadow: var(--ds-shadow);
 }
 
 .error-page .draw-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
-    background: linear-gradient(135deg, #e6c547, #d4af37);
+    background: var(--ds-primary-hover);
 }
 
 /* Spread-specific layouts */
