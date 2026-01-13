@@ -6185,6 +6185,16 @@ textarea:focus,
     transform: scale(0.95);
 }
 
+.question-input-group.is-typing .input-icon.material-icons,
+.question-input-group.is-typing .floating-label {
+    opacity: 0 !important;
+    transform: scale(0.98);
+}
+
+.question-input-group.is-typing .floating-label {
+    display: none !important;
+}
+
 .input-group input,
 .question-input-group textarea {
     border-radius: var(--ds-radius-control);

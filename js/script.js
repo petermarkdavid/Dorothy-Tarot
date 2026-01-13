@@ -573,6 +573,10 @@ class TarotReader {
         if (!charCountValue || !counterDiv) return;
 
         const textarea = document.getElementById('userQuestion');
+        const group = textarea?.closest?.('.question-input-group');
+        if (group) {
+            group.classList.toggle('is-typing', !!(textarea && textarea.value && textarea.value.length > 0));
+        }
 
         // Only update the number; the "/{max} characters" suffix is in HTML.
         charCountValue.textContent = String(charCount);
