@@ -1294,19 +1294,21 @@ body {
 }
 
 .general-reading-info {
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
+    /* Design-system aligned helper panel (info) */
+    background: var(--ds-primary-soft, rgba(75, 99, 255, 0.10));
+    border: 1px solid rgba(75, 99, 255, 0.22);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
     text-align: center;
 }
 
 .general-reading-info p {
-    color: var(--accent-gold);
-    font-style: italic;
+    color: var(--text-secondary);
+    font-style: normal;
     margin: 0;
     font-size: 1rem;
+    line-height: 1.5;
 }
 
 #userQuestion {
@@ -3364,6 +3366,12 @@ body {
     margin-bottom: 20px;
 }
 
+/* Keep the textarea + label + counter in a vertical flow to allow the counter under the box */
+.question-input-main {
+    flex: 1;
+    min-width: 0;
+}
+
 .question-input-group .input-icon {
     top: 15px;
 }
@@ -3385,6 +3393,10 @@ body {
 .pill-toggle-option {
     position: relative;
     cursor: pointer;
+    /* Neutralize Material-theme pill styling so the inner `.btn` drives appearance */
+    background: transparent;
+    padding: 0;
+    border: 0;
 }
 
 .pill-toggle-option input[type="radio"] {
@@ -3394,32 +3406,14 @@ body {
 }
 
 .pill-content {
-    display: flex;
+    /* The visible control is now a style-guide `.btn` */
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 16px;
-    background: var(--airbnb-white);
-    border: 1px solid #DDDDDD;
-    border-radius: 8px;
-    color: var(--airbnb-dark-gray);
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     cursor: pointer;
 }
 
-.pill-toggle-option:hover .pill-content {
-    background: var(--airbnb-light-gray);
-    border-color: var(--autumn-orange);
-    color: var(--autumn-orange);
-}
-
-.pill-toggle-option.active .pill-content {
-    background: var(--autumn-orange);
-    border-color: var(--autumn-orange);
-    color: var(--airbnb-white);
-}
+/* Hover/active styling is handled by `.btn-*` classes now */
 
 .pill-icon {
     font-size: 1.1rem;
@@ -3773,19 +3767,19 @@ body.dark-mode .question-input-group textarea:not(:placeholder-shown) + .floatin
     color: #d4af37;
 }
 
-body.dark-mode .pill-content {
+body.dark-mode .pill-content:not(.btn) {
     background: var(--airbnb-dark-gray);
     border-color: #444444;
     color: var(--airbnb-white);
 }
 
-body.dark-mode .pill-toggle-option:hover .pill-content {
+body.dark-mode .pill-toggle-option:hover .pill-content:not(.btn) {
     background: #444444;
     border-color: var(--autumn-orange);
     color: var(--autumn-orange);
 }
 
-body.dark-mode .pill-toggle-option.active .pill-content {
+body.dark-mode .pill-toggle-option.active .pill-content:not(.btn) {
     background: var(--autumn-orange);
     border-color: var(--autumn-orange);
     color: var(--airbnb-white);
@@ -3812,6 +3806,12 @@ body.dark-mode .spread-card:hover .card-label {
 body.dark-mode .spread-card.active {
     background: var(--autumn-orange);
     border-color: var(--autumn-orange);
+}
+
+/* Dark-mode helper panel tuning (keep it subtle, keep it blue) */
+body.dark-mode .general-reading-info {
+    background: rgba(75, 99, 255, 0.16);
+    border-color: rgba(75, 99, 255, 0.28);
 }
 
 body.dark-mode .spread-card.active .card-label {
@@ -5636,6 +5636,14 @@ body {
     color: var(--text-primary);
 }
 
+/* Buttons: align with design.json (sentence case labels, blue primary, clean typography) */
+button,
+.btn {
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: var(--ds-font-sans);
+}
+
 /* Container rhythm for informational pages */
 .container {
     max-width: 1120px;
@@ -5681,6 +5689,90 @@ body {
     border: 1px solid var(--ds-border);
     border-radius: var(--ds-radius-card);
     box-shadow: var(--ds-shadow);
+}
+
+/* SEO content: long-form marketing copy should feel like a standard surface card.
+   Override legacy gold-heavy rules defined earlier in the file. */
+.seo-content {
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-border);
+    border-radius: var(--ds-radius-card);
+    box-shadow: var(--ds-shadow);
+    padding: 24px;
+    margin: 24px 0;
+}
+
+.seo-content .content-wrapper {
+    max-width: 860px;
+    margin: 0 auto;
+    line-height: 1.7;
+}
+
+.seo-content h2 {
+    font-family: var(--ds-font-sans);
+    color: var(--text-primary);
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.25;
+    text-align: center;
+    margin: 0 0 16px 0;
+}
+
+.seo-content h3,
+.seo-content h4 {
+    font-family: var(--ds-font-sans);
+    color: var(--text-primary);
+    font-weight: 700;
+    margin: 22px 0 12px 0;
+}
+
+.seo-content h3 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+}
+
+.seo-content h4 {
+    font-size: 1.125rem;
+    line-height: 1.35;
+}
+
+.seo-content p,
+.seo-content ul,
+.seo-content li {
+    font-family: var(--ds-font-sans);
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.65;
+    text-align: left;
+}
+
+.seo-content p {
+    margin: 0 0 14px 0;
+}
+
+.seo-content ul {
+    margin: 0 0 14px 0;
+    padding-left: 22px;
+}
+
+.seo-content li {
+    margin-bottom: 8px;
+}
+
+.seo-content strong {
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .seo-content {
+        padding: 20px 16px;
+        margin: 16px 0;
+    }
+
+    .seo-content h2 {
+        font-size: 1.6rem;
+    }
 }
 
 /* Muted surface blocks */
@@ -5778,7 +5870,7 @@ a:hover {
     border-radius: var(--ds-radius-control);
     font-family: var(--ds-font-sans);
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     box-shadow: var(--ds-shadow-soft);
     transition: transform 0.12s ease, background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
@@ -6028,6 +6120,8 @@ textarea:focus,
     background: var(--ds-surface-muted);
     border: 1px solid var(--ds-border);
     box-shadow: var(--ds-shadow);
+    /* Move the visual block slightly lower for better vertical alignment with hero copy */
+    margin-top: 24px;
 }
 
 .hero-glow {
@@ -6125,7 +6219,7 @@ textarea:focus,
     width: 100%;
 }
 
-.pill-content {
+.pill-content:not(.btn) {
     border-radius: 14px;
     border: 1px solid transparent;
     background: transparent;
@@ -6137,13 +6231,13 @@ textarea:focus,
     min-height: 44px; /* touch target */
 }
 
-.pill-toggle-option:hover .pill-content {
+.pill-toggle-option:hover .pill-content:not(.btn) {
     background: rgba(255, 255, 255, 0.65);
     border-color: var(--ds-border);
     color: var(--text-primary);
 }
 
-.pill-toggle-option.active .pill-content {
+.pill-toggle-option.active .pill-content:not(.btn) {
     background: var(--ds-surface);
     border-color: var(--ds-border);
     color: var(--text-primary);

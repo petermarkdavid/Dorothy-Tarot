@@ -568,13 +568,14 @@ class TarotReader {
     }
 
     updateCharCounter(charCount) {
-        const charCounter = document.getElementById('charCount');
-        if (!charCounter) return;
-        
-        const counterDiv = charCounter.parentElement;
+        const charCountValue = document.getElementById('charCountValue');
+        const counterDiv = document.getElementById('charCount');
+        if (!charCountValue || !counterDiv) return;
+
         const textarea = document.getElementById('userQuestion');
-        
-        charCounter.textContent = charCount;
+
+        // Only update the number, keep "/75 characters" intact
+        charCountValue.textContent = String(charCount);
         
         // Update styling based on character count
         if (counterDiv) counterDiv.classList.remove('warning', 'danger');
@@ -1101,10 +1102,15 @@ class TarotReader {
         // Update pill toggle visual states
         document.querySelectorAll('.pill-toggle-option').forEach(option => {
             const radio = option.querySelector('input[type="radio"]');
-            if (radio && radio.checked) {
-                option.classList.add('active');
-            } else {
-                option.classList.remove('active');
+            const isActive = !!(radio && radio.checked);
+            option.classList.toggle('active', isActive);
+
+            // Use style-guide button classes for the visible pill content
+            const pillContent = option.querySelector('.pill-content');
+            if (pillContent) {
+                pillContent.classList.add('btn');
+                pillContent.classList.toggle('btn-primary', isActive);
+                pillContent.classList.toggle('btn-secondary', !isActive);
             }
         });
     }
