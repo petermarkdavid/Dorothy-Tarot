@@ -6175,12 +6175,22 @@ textarea:focus,
     color: var(--ds-primary);
 }
 
+/* Utility: ensure hidden always wins, even against later layout rules. */
+.hidden {
+    display: none !important;
+}
+
 .input-group input,
 .question-input-group textarea {
     border-radius: var(--ds-radius-control);
     border: 1px solid var(--ds-border-strong);
     background: var(--ds-surface);
     box-shadow: none;
+}
+
+/* Question textarea: add a bit more breathing room on the right edge. */
+#userQuestion {
+    padding-right: 26px;
 }
 
 .floating-label {

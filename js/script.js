@@ -1075,7 +1075,10 @@ class TarotReader {
     }
 
     toggleReadingType(readingType) {
-        const questionInput = document.getElementById('questionInput');
+        // Older versions used an explicit wrapper id; current markup uses `.question-input-group`.
+        const questionInput =
+            document.getElementById('questionInput') ||
+            document.querySelector('.question-input-group');
         const generalReadingInfo = document.getElementById('generalReadingInfo');
         const horoscopeReadingInfo = document.getElementById('horoscopeReadingInfo');
         const userQuestion = document.getElementById('userQuestion');
@@ -1084,7 +1087,8 @@ class TarotReader {
             if (questionInput) questionInput.classList.remove('hidden');
             if (generalReadingInfo) generalReadingInfo.classList.add('hidden');
             if (horoscopeReadingInfo) horoscopeReadingInfo.classList.add('hidden');
-            if (userQuestion) userQuestion.placeholder = 'Ask your question to the cards...';
+            // Keep placeholder empty (single-space) so the floating label works without overlay text.
+            if (userQuestion) userQuestion.placeholder = ' ';
         } else if (readingType === 'general') {
             if (questionInput) questionInput.classList.add('hidden');
             if (generalReadingInfo) generalReadingInfo.classList.remove('hidden');
