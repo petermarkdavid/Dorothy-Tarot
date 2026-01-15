@@ -104,7 +104,8 @@ window.BrandConfig = {
     // To use separate database, create new Supabase project and update URL/anonKey
     supabase: {
         url: 'https://hmuerktbxmbgagabyqfv.supabase.co',
-        anonKey: 'sb_publishable_rVykMNSqj_OO-C1bBfQxew_3XKt8EiC',tables: {
+        anonKey: 'sb_publishable_rVykMNSqj_OO-C1bBfQxew_3XKt8EiC',  // anon/public/publishable key (all the same)
+        tables: {
             readings: 'readings',
             email_logs: 'email_logs',
             analytics: 'analytics'
