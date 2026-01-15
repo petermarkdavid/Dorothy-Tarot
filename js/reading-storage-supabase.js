@@ -13,8 +13,19 @@ class ReadingStorageSupabase {
         if (typeof window.getSupabaseClient === 'function' && typeof window.isSupabaseConfigured === 'function') {
             this.supabase = window.getSupabaseClient();
             this.isConfigured = window.isSupabaseConfigured();
+            
+            console.log('ReadingStorageSupabase initialization:', {
+                supabaseClient: !!this.supabase,
+                isConfigured: this.isConfigured,
+                supabaseUrl: window.SUPABASE_CONFIG?.url,
+                tableName: window.SUPABASE_CONFIG?.tables?.readings
+            });
         } else {
-            console.warn('Supabase functions not available, using fallback mode');
+            console.warn('⚠️ Supabase functions not available, using fallback mode');
+            console.warn('Missing functions:', {
+                getSupabaseClient: typeof window.getSupabaseClient,
+                isSupabaseConfigured: typeof window.isSupabaseConfigured
+            });
             this.supabase = null;
             this.isConfigured = false;
         }
@@ -22,7 +33,10 @@ class ReadingStorageSupabase {
         this.fallbackMode = !this.isConfigured;
         
         if (this.fallbackMode) {
-            console.log('Using localStorage fallback for reading storage');
+            console.warn('⚠️ Using localStorage fallback for reading storage - readings will NOT be shareable via links');
+            console.warn('To enable Supabase: ensure supabase-config.js is loaded and Supabase is properly configured');
+        } else {
+            console.log('✅ Supabase configured - readings will be saved to database and shareable');
         }
         
         this.cleanupOldReadings();
@@ -52,9 +66,13 @@ class ReadingStorageSupabase {
     async saveReading(readingData) {
         const readingId = this.generateReadingId();
         
+        // Get site name from BrandConfig (for multi-site databases)
+        const siteName = (window.BrandConfig && window.BrandConfig.siteName) || 'Ask Sian';
+        
         // Transform reading data to match database schema
         const reading = {
             id: readingId,
+            site_name: siteName, // Track which site this reading belongs to
             reading_type: readingData.readingType || 'general',
             question: readingData.question || null,
             spread_name: readingData.spreadName || readingData.spreadType || 'Single Card',
@@ -73,18 +91,45 @@ class ReadingStorageSupabase {
         }
 
         try {
-            console.log('Saving reading to Supabase:', {
+            console.log('💾 Saving reading to Supabase:', {
                 id: readingId,
                 reading_type: reading.reading_type,
                 spread_name: reading.spread_name,
                 cards_count: reading.cards.length,
-                has_interpretation: !!reading.interpretation
+                has_interpretation: !!reading.interpretation,
+                is_public: reading.is_public,
+                site_name: reading.site_name,
+                table: window.SUPABASE_CONFIG?.tables?.readings || 'readings',
+                supabaseUrl: window.SUPABASE_CONFIG?.url
             });
             
+            // Validate Supabase client
+            if (!this.supabase) {
+                throw new Error('Supabase client is null - cannot save to database');
+            }
+            
             const tableName = window.SUPABASE_CONFIG?.tables?.readings || 'readings';
+            
+            // Ensure ID is in correct format (UUID string should work, but let's be explicit)
+            // Supabase should accept UUID strings, but if the column is UUID type, we need to ensure format
+            const readingToInsert = {
+                ...reading,
+                id: reading.id // Keep as string - Supabase will handle conversion if needed
+            };
+            
+            // Log the exact data being sent
+            console.log('📤 Inserting reading data:', {
+                table: tableName,
+                id: readingToInsert.id,
+                id_type: typeof readingToInsert.id,
+                reading_type: readingToInsert.reading_type,
+                is_public: readingToInsert.is_public,
+                site_name: readingToInsert.site_name
+            });
+            
             const { data, error } = await this.supabase
                 .from(tableName)
-                .insert([reading])
+                .insert([readingToInsert])
                 .select(); // Return the inserted row
 
             if (error) {
@@ -95,6 +140,15 @@ class ReadingStorageSupabase {
                     hint: error.hint,
                     code: error.code
                 });
+                console.error('Reading data that failed to save:', {
+                    id: reading.id,
+                    reading_type: reading.reading_type,
+                    spread_name: reading.spread_name,
+                    is_public: reading.is_public,
+                    site_name: reading.site_name,
+                    cards_count: reading.cards?.length
+                });
+                console.warn('⚠️ Falling back to localStorage - reading will NOT be shareable via link');
                 // Fall back to localStorage
                 return this.saveReadingFallback(reading);
             }
@@ -167,51 +221,130 @@ class ReadingStorageSupabase {
         }
 
         try {
-            // First try with is_public filter
-            let { data, error } = await this.supabase
+            console.log('Fetching reading from Supabase:', {
+                readingId,
+                table: window.SUPABASE_CONFIG.tables.readings,
+                supabaseUrl: window.SUPABASE_CONFIG?.url
+            });
+
+            // Query with is_public filter first (required by RLS policy)
+            // RLS policy only allows SELECT when is_public = true
+            // Also check site_name if using multi-site database
+            let query = this.supabase
                 .from(window.SUPABASE_CONFIG.tables.readings)
                 .select('*')
                 .eq('id', readingId)
-                .eq('is_public', true)
-                .single();
+                .eq('is_public', true);
+            
+            // If using multi-site database, optionally filter by site_name
+            // But for shared readings, we want to allow cross-site access, so we'll skip this filter
+            // The reading should be accessible if is_public = true regardless of site_name
+            
+            let { data, error } = await query.single();
 
-            // If not found with is_public filter, try without it (in case reading was just saved)
+            // If not found with is_public filter, try to check if reading exists at all
+            // This helps diagnose if the issue is is_public=false or reading doesn't exist
             if (error && error.code === 'PGRST116') {
-                console.log('Reading not found with is_public filter, trying without filter...');
-                const result = await this.supabase
-                    .from(window.SUPABASE_CONFIG.tables.readings)
-                    .select('*')
-                    .eq('id', readingId)
-                    .single();
+                console.log('Reading not found with is_public=true filter, checking if reading exists at all...');
                 
-                data = result.data;
-                error = result.error;
+                // Try to query just basic fields to see if the reading exists
+                // Use maybeSingle to avoid error if not found, and select minimal fields
+                const checkResult = await this.supabase
+                    .from(window.SUPABASE_CONFIG.tables.readings)
+                    .select('id, is_public, expires_at, created_at, site_name')
+                    .eq('id', readingId)
+                    .maybeSingle(); // Use maybeSingle to avoid error if not found
+                
+                if (checkResult.data) {
+                    // Reading exists but might not be public
+                    console.warn('Reading exists in database but may not be public:', {
+                        readingId,
+                        is_public: checkResult.data.is_public,
+                        expires_at: checkResult.data.expires_at,
+                        site_name: checkResult.data.site_name,
+                        created_at: checkResult.data.created_at
+                    });
+                    
+                    // Check if expired
+                    if (checkResult.data.expires_at && new Date(checkResult.data.expires_at) < new Date()) {
+                        console.warn('Reading has expired:', readingId);
+                        return null;
+                    }
+                    
+                    // If is_public is false/null, that's the issue
+                    if (checkResult.data.is_public === false || checkResult.data.is_public === null) {
+                        console.warn('Reading exists but is_public is false/null. Reading cannot be accessed via shared link:', readingId);
+                        // Continue to localStorage fallback in case it was saved there
+                    }
+                } else if (checkResult.error) {
+                    // If we get an RLS error, the reading exists but we can't see it
+                    if (checkResult.error.code === '42501' || checkResult.error.message?.includes('permission denied') || checkResult.error.message?.includes('row-level security')) {
+                        console.warn('Reading likely exists but RLS is blocking access (reading may not be public):', readingId);
+                    } else {
+                        console.warn('Error checking if reading exists:', checkResult.error);
+                    }
+                } else {
+                    console.warn('Reading does not exist in database:', readingId);
+                }
             }
 
             if (error) {
                 if (error.code === 'PGRST116') {
-                    // No rows returned - try fallback
-                    console.log('Reading not found in Supabase, trying localStorage fallback...');
+                    // No rows returned - reading doesn't exist
+                    console.warn('Reading not found in Supabase (PGRST116):', {
+                        readingId,
+                        error: error.message,
+                        hint: error.hint
+                    });
+                    console.log('Trying localStorage fallback...');
                     return this.getReadingFallback(readingId);
                 }
-                console.error('Failed to get reading from Supabase:', error);
+                console.error('Failed to get reading from Supabase:', {
+                    readingId,
+                    error: error.message,
+                    code: error.code,
+                    details: error.details,
+                    hint: error.hint
+                });
+                // Try fallback on any error
                 return this.getReadingFallback(readingId);
             }
 
             if (!data) {
-                console.log('No data returned from Supabase, trying localStorage fallback...');
+                console.warn('No data returned from Supabase for reading:', readingId);
+                console.log('Trying localStorage fallback...');
                 return this.getReadingFallback(readingId);
             }
 
             // Check if reading has expired
-            if (data.expires_at && new Date(data.expires_at) < new Date()) {
-                console.log('Reading has expired:', readingId);
-                return null;
+            if (data.expires_at) {
+                const expiryDate = new Date(data.expires_at);
+                const now = new Date();
+                if (expiryDate < now) {
+                    console.warn('Reading has expired:', {
+                        readingId,
+                        expires_at: data.expires_at,
+                        now: now.toISOString()
+                    });
+                    return null;
+                }
             }
+
+            console.log('✅ Reading found in Supabase:', {
+                readingId,
+                reading_type: data.reading_type,
+                spread_name: data.spread_name,
+                is_public: data.is_public,
+                expires_at: data.expires_at
+            });
 
             return data;
         } catch (error) {
-            console.error('Error getting reading from Supabase:', error);
+            console.error('Error getting reading from Supabase:', {
+                readingId,
+                error: error.message,
+                stack: error.stack
+            });
             return this.getReadingFallback(readingId);
         }
     }
@@ -249,9 +382,23 @@ class ReadingStorageSupabase {
         }
 
         try {
+            // First get the current view count
+            const { data: reading, error: fetchError } = await this.supabase
+                .from(window.SUPABASE_CONFIG.tables.readings)
+                .select('view_count')
+                .eq('id', readingId)
+                .single();
+
+            if (fetchError) {
+                console.warn('Could not fetch current view count, skipping increment:', fetchError);
+                return this.incrementViewCountFallback(readingId);
+            }
+
+            // Increment the view count
+            const newCount = (reading?.view_count || 0) + 1;
             const { error } = await this.supabase
                 .from(window.SUPABASE_CONFIG.tables.readings)
-                .update({ view_count: this.supabase.raw('view_count + 1') })
+                .update({ view_count: newCount })
                 .eq('id', readingId);
 
             if (error) {
