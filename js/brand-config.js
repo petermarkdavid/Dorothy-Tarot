@@ -100,10 +100,11 @@ window.BrandConfig = {
     // ============================================
     // SUPABASE CONFIGURATION
     // ============================================
+    // NOTE: Using shared database with Ask Sian
+    // To use separate database, create new Supabase project and update URL/anonKey
     supabase: {
-        url: 'https://cjgmyqtfijuzsvdhzqzw.supabase.co',  // Dorothy Tarot Supabase project
-        anonKey: 'sb_publishable_DptLxRa1rHNR9XEjN8B5_A_gxKh0TrQ',  // Anon/public key (safe for client-side)
-        tables: {
+        url: 'https://hmuerktbxmbgagabyqfv.supabase.co',
+        anonKey: 'sb_publishable_rVykMNSqj_OO-C1bBfQxew_3XKt8EiC',tables: {
             readings: 'readings',
             email_logs: 'email_logs',
             analytics: 'analytics'
