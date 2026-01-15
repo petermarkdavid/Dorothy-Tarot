@@ -11,3 +11,6 @@ Thumbs.db
 
 # Keep all other files for deployment
 
+# Brand config with API keys (use brand-config.example.js as template)
+js/brand-config.js
+

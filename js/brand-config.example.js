@@ -139,7 +139,11 @@ window.BrandConfig = {
     // OPENAI CONFIGURATION
     // ============================================
     openai: {
-        defaultApiKey: null
+        // Add your OpenAI API key here for localhost/development
+        // Get your API key from: https://platform.openai.com/api-keys
+        // Format: 'sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+        // Replace null below with your actual API key (starts with 'sk-')
+        defaultApiKey: null // TODO: Add your OpenAI API key here
     },
     
     // ============================================
