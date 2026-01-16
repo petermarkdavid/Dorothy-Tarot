@@ -120,7 +120,21 @@ class ChatGPTTarotInterpreter {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({}));
-                throw new Error(`API Error: ${errorData.error?.message || 'Unknown error'}`);
+                const errorMessage = errorData.error?.message || 'Unknown error';
+                
+                // Provide specific error messages for common issues
+                if (response.status === 401) {
+                    console.error('ChatGPT API 401 Unauthorized:', errorMessage);
+                    throw new Error('Invalid or missing OpenAI API key. Please check your API key configuration.');
+                } else if (response.status === 429) {
+                    console.error('ChatGPT API Rate Limit:', errorMessage);
+                    throw new Error('API rate limit exceeded. Please try again later.');
+                } else if (response.status === 500) {
+                    console.error('ChatGPT API Server Error:', errorMessage);
+                    throw new Error('OpenAI service is temporarily unavailable. Please try again later.');
+                }
+                
+                throw new Error(`API Error: ${errorMessage}`);
             }
 
             const data = await response.json();
@@ -131,15 +145,27 @@ class ChatGPTTarotInterpreter {
             
             return result;
         } catch (error) {
+            // Handle specific error types
+            if (error.message && error.message.includes('API key')) {
+                // Already handled above, just re-throw
+                throw error;
+            }
+            
             // Handle CORS and network errors gracefully
             if (error.message && error.message.includes('CORS')) {
-                console.error('ChatGPT API CORS Error: OpenAI API cannot be called directly from the browser due to CORS restrictions. Consider using a backend proxy or Supabase edge function.');
-                throw new Error('AI interpretation is currently unavailable due to browser security restrictions. Please use a standard tarot reading instead.');
+                console.error('ChatGPT API CORS Error: This may be a false CORS error. Check if API key is valid.');
+                throw new Error('AI interpretation is currently unavailable. Please check your API key configuration or use a standard tarot reading.');
             }
+            
             if (error.message && (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
                 console.error('ChatGPT API Network Error:', error);
+                // Check if this might be a 401 error disguised as network error
+                if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+                    throw new Error('Invalid or missing OpenAI API key. Please check your API key configuration.');
+                }
                 throw new Error('Unable to connect to AI service. Please check your internet connection or use a standard tarot reading.');
             }
+            
             console.error('ChatGPT API Error:', error);
             throw error;
         }

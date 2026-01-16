@@ -6,7 +6,7 @@
 
 // Ensure BrandConfig is loaded
 if (typeof window.BrandConfig === 'undefined') {
-    console.error('BrandConfig not found! Make sure brand-config.js is loaded before config.js');
+    console.warn('⚠️ BrandConfig not found! Using fallback configuration. Make sure brand-config.js is deployed.');
     // Fallback to default Dorothy Tarot config (should not happen if brand-config.js loads properly)
     window.BrandConfig = {
         siteName: 'Dorothy Tarot',
