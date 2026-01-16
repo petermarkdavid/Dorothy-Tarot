@@ -9,7 +9,20 @@ class ChatGPTTarotInterpreter {
     }
 
     getDefaultApiKey() {
-        // Check if there's a global config with a default API key
+        // Check BrandConfig first (for Dorothy Tarot), then AskSianConfig for backward compatibility
+        if (window.BrandConfig && window.BrandConfig.openai && window.BrandConfig.openai.defaultApiKey) {
+            const configuredKey = window.BrandConfig.openai.defaultApiKey.trim();
+            if (!this.isPlaceholderApiKey(configuredKey)) {
+                return configuredKey;
+            }
+        }
+        if (window.AskSianConfig && window.AskSianConfig.openai && window.AskSianConfig.openai.defaultApiKey) {
+            const configuredKey = window.AskSianConfig.openai.defaultApiKey.trim();
+            if (!this.isPlaceholderApiKey(configuredKey)) {
+                return configuredKey;
+            }
+        }
+        // Legacy support for direct defaultApiKey property
         if (window.AskSianConfig && window.AskSianConfig.defaultApiKey) {
             const configuredKey = window.AskSianConfig.defaultApiKey.trim();
             if (!this.isPlaceholderApiKey(configuredKey)) {
@@ -106,7 +119,7 @@ class ChatGPTTarotInterpreter {
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
+                const errorData = await response.json().catch(() => ({}));
                 throw new Error(`API Error: ${errorData.error?.message || 'Unknown error'}`);
             }
 
@@ -118,6 +131,15 @@ class ChatGPTTarotInterpreter {
             
             return result;
         } catch (error) {
+            // Handle CORS and network errors gracefully
+            if (error.message && error.message.includes('CORS')) {
+                console.error('ChatGPT API CORS Error: OpenAI API cannot be called directly from the browser due to CORS restrictions. Consider using a backend proxy or Supabase edge function.');
+                throw new Error('AI interpretation is currently unavailable due to browser security restrictions. Please use a standard tarot reading instead.');
+            }
+            if (error.message && (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
+                console.error('ChatGPT API Network Error:', error);
+                throw new Error('Unable to connect to AI service. Please check your internet connection or use a standard tarot reading.');
+            }
             console.error('ChatGPT API Error:', error);
             throw error;
         }

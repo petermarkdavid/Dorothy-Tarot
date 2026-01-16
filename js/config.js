@@ -7,18 +7,18 @@
 // Ensure BrandConfig is loaded
 if (typeof window.BrandConfig === 'undefined') {
     console.error('BrandConfig not found! Make sure brand-config.js is loaded before config.js');
-    // Fallback to default Ask Sian config
+    // Fallback to default Dorothy Tarot config (should not happen if brand-config.js loads properly)
     window.BrandConfig = {
-        siteName: 'Ask Sian',
-        readerName: 'Sian',
+        siteName: 'Dorothy Tarot',
+        readerName: 'Dorothy',
         email: {
-            fromEmail: 'noreply@asksian.com',
-            fromName: 'Ask Sian',
-            websiteUrl: 'https://asksian.com'
+            fromEmail: 'noreply@dorothytarot.com',
+            fromName: 'Dorothy Tarot',
+            websiteUrl: 'https://dorothytarot.com'
         },
         supabase: {
-            url: 'https://eydmgvneewccqfylcsdh.supabase.co',
-            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZG1ndm5lZXdjY3FmeWxjc2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMzE5MDQsImV4cCI6MjA3NTcwNzkwNH0.LbMZ5dEQNF7tfw0JsrSo77qYa4eIwHLAt_IDZuDY28s',
+            url: 'https://hmuerktbxmbgagabyqfv.supabase.co',
+            anonKey: 'sb_publishable_rVykMNSqj_OO-C1bBfQxew_3XKt8EiC',
             tables: {
                 readings: 'readings',
                 email_logs: 'email_logs',
@@ -44,6 +44,20 @@ if (typeof window.BrandConfig === 'undefined') {
         debug: {
             enabled: false,
             level: 'info'
+        },
+        ui: {
+            loadingMessage: '🔮 Dorothy is preparing your personalized reading...'
+        },
+        // Add getUIText method to fallback
+        getUIText: function(key, variables = {}) {
+            let text = (this.ui && this.ui[key]) || key;
+            Object.keys(variables).forEach(variable => {
+                text = text.replace(`{${variable}}`, variables[variable]);
+            });
+            text = text.replace(/{readerName}/g, this.readerName || 'Dorothy');
+            text = text.replace(/{siteName}/g, this.siteName || 'Dorothy Tarot');
+            text = text.replace(/{websiteUrl}/g, this.websiteUrl || 'https://dorothytarot.com');
+            return text;
         }
     };
 }

@@ -662,14 +662,26 @@
     <!-- Update loading message with brand config -->
     <script>
         // Update loading message when brand config is available
-        setTimeout(() => {
-            if (window.BrandConfig) {
+        function updateLoadingMessage() {
+            if (window.BrandConfig && typeof window.BrandConfig.getUIText === 'function') {
                 const loadingMsg = document.getElementById('loadingMessage');
                 if (loadingMsg) {
-                    loadingMsg.textContent = window.BrandConfig.getUIText('loadingMessage');
+                    try {
+                        loadingMsg.textContent = window.BrandConfig.getUIText('loadingMessage');
+                    } catch (error) {
+                        console.warn('Failed to update loading message:', error);
+                        // Fallback to default message
+                        if (window.BrandConfig.readerName) {
+                            loadingMsg.textContent = `🔮 ${window.BrandConfig.readerName} is preparing your personalized reading...`;
+                        }
+                    }
                 }
             }
-        }, 100);
+        }
+        // Try immediately and also after a delay to handle async loading
+        updateLoadingMessage();
+        setTimeout(updateLoadingMessage, 100);
+        setTimeout(updateLoadingMessage, 500);
     </script>
 </body>
 </html>

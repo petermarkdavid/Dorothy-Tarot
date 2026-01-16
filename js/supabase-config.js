@@ -17,8 +17,9 @@
     const SUPABASE_CONFIG = (window.BrandConfig && window.BrandConfig.supabase) || 
                             (window.AskSianConfig && window.AskSianConfig.supabase) || {
         // Fallback default (should not be used if BrandConfig is loaded)
-        url: 'https://eydmgvneewccqfylcsdh.supabase.co',
-        anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV5ZG1ndm5lZXdjY3FmeWxjc2RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAxMzE5MDQsImV4cCI6MjA3NTcwNzkwNH0.LbMZ5dEQNF7tfw0JsrSo77qYa4eIwHLAt_IDZuDY28s',
+        // Using Dorothy Tarot Supabase instance
+        url: 'https://hmuerktbxmbgagabyqfv.supabase.co',
+        anonKey: 'sb_publishable_rVykMNSqj_OO-C1bBfQxew_3XKt8EiC',
         
         // Database table names
         tables: {
