@@ -364,12 +364,19 @@ class TarotReader {
         const savedKey = localStorage.getItem('openai_api_key');
         if (savedKey) {
             // Check if the saved key is the old compromised key (more comprehensive check)
-            if (this.isCompromisedApiKey(savedKey) ||
-                this.isPlaceholderApiKey(savedKey) ||
-                savedKey.length < 50) {
+            // Only check for compromised/placeholder keys - don't check length as it's too aggressive
+            if (this.isCompromisedApiKey(savedKey) || this.isPlaceholderApiKey(savedKey)) {
                 console.log('Old compromised API key detected, clearing...');
                 this.clearApiKey();
-                alert('Old API key detected and cleared. Please enter your new API key.');
+                // Only show alert if edge function is not available
+                setTimeout(() => {
+                    if (!window.getSupabaseClient || !window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                        alert('Old API key detected and cleared. Please enter your new API key.');
+                    } else {
+                        // Edge function available - silently clear the old key
+                        console.log('Old API key cleared. Using Supabase Edge Function for AI interpretations.');
+                    }
+                }, 1000);
                 return;
             }
             document.getElementById('apiKey').value = savedKey;
@@ -383,10 +390,29 @@ class TarotReader {
                 this.chatGPTInterpreter.saveApiKey(defaultKey);
                 // Don't show the key in the input field for security
             } else {
-                console.warn('⚠️ No API key found. AI interpretations will not be available.');
-                console.log('To enable AI interpretations:');
-                console.log('1. Enter your API key in the UI, OR');
-                console.log('2. Add defaultApiKey to brand-config.js');
+                // Check if edge function is available (preferred method - no API key needed)
+                // Wait a bit for Supabase to initialize (async loading)
+                setTimeout(() => {
+                    if (window.getSupabaseClient && window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                        const supabase = window.getSupabaseClient();
+                        if (supabase) {
+                            // Edge function available - API will work for all users via server-side key
+                            // No warning needed - edge function is the preferred method
+                            console.log('💡 AI interpretations will use Supabase Edge Function (server-side API key)');
+                            return;
+                        }
+                    }
+                    // Only warn if edge function is not available AND no client-side key
+                    // Check again after a longer delay in case scripts are still loading
+                    setTimeout(() => {
+                        if (!window.getSupabaseClient || !window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                            console.warn('⚠️ No API key found. AI interpretations will not be available.');
+                            console.log('To enable AI interpretations:');
+                            console.log('1. Enter your API key in the UI, OR');
+                            console.log('2. Add defaultApiKey to brand-config.js');
+                        }
+                    }, 2000);
+                }, 500);
             }
         }
     }

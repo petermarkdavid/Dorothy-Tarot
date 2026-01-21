@@ -51,6 +51,14 @@ class ChatGPTTarotInterpreter {
     }
 
     hasApiKey() {
+        // Check if edge function is available (preferred - works for all users)
+        if (window.getSupabaseClient && window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+            const supabase = window.getSupabaseClient();
+            if (supabase) {
+                return true; // Edge function available - API key is server-side
+            }
+        }
+        // Fallback: check for client-side API key
         return this.apiKey && this.apiKey.trim() !== '';
     }
 
@@ -76,16 +84,88 @@ class ChatGPTTarotInterpreter {
     }
 
     async generateTarotInterpretation(question, cards, spread, userName = null, userStarsign = null) {
-        if (!this.hasApiKey()) {
-            throw new Error('No API key provided');
-        }
-
         // Check cache first
         const cacheKey = this.generateCacheKey('tarot', question, cards, spread, userName, userStarsign);
         const cachedResponse = this.getCachedResponse(cacheKey);
         if (cachedResponse) {
             console.log('Using cached response for tarot interpretation');
             return cachedResponse;
+        }
+
+        // Wait for Supabase to be available (up to 5 seconds)
+        let supabaseReady = false;
+        for (let i = 0; i < 50; i++) {
+            if (window.getSupabaseClient && window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                supabaseReady = true;
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        // Try using Supabase Edge Function first (server-side API key)
+        if (supabaseReady) {
+            try {
+                const supabase = window.getSupabaseClient();
+                if (supabase) {
+                    console.log('🔮 Using Supabase Edge Function for interpretation...');
+                    console.log('Function name:', window.SUPABASE_CONFIG.functions.generateInterpretation);
+                    
+                    // Supabase client automatically adds auth headers - don't override
+                    const { data, error } = await supabase.functions.invoke(
+                        window.SUPABASE_CONFIG.functions.generateInterpretation,
+                        {
+                            body: {
+                                type: 'tarot',
+                                question: question,
+                                cards: cards.map(card => ({
+                                    name: card.name,
+                                    isReversed: card.isReversed || false,
+                                    position: card.position
+                                })),
+                                spread: spread,
+                                userName: userName,
+                                userStarsign: userStarsign,
+                                readingType: 'question'
+                            }
+                        }
+                    );
+
+                    console.log('Edge function response:', { data, error });
+
+                    if (error) {
+                        console.error('❌ Edge function failed:', error);
+                        throw new Error(`Edge function failed: ${error.message}`);
+                    }
+
+                    if (data && data.success && data.interpretation) {
+                        console.log('✅ Edge function succeeded');
+                        const result = data.interpretation;
+                        // Cache the response
+                        this.setCachedResponse(cacheKey, result);
+                        return result;
+                    } else {
+                        console.error('❌ Edge function returned invalid data:', data);
+                        throw new Error('Edge function returned invalid response');
+                    }
+                } else {
+                    console.warn('⚠️ Supabase client not available');
+                }
+            } catch (edgeError) {
+                console.error('❌ Edge function exception:', edgeError);
+                throw new Error(`Edge function failed: ${edgeError.message}`);
+            }
+        }
+
+        // Fallback: Direct API call (only if edge function not available)
+        if (!this.hasApiKey()) {
+            const diagnostics = {
+                hasSupabaseClient: !!window.getSupabaseClient,
+                hasSupabaseConfig: !!window.SUPABASE_CONFIG,
+                hasFunction: !!window.SUPABASE_CONFIG?.functions?.generateInterpretation,
+                hasApiKey: !!this.apiKey
+            };
+            console.error('⚠️ Edge function not configured:', diagnostics);
+            throw new Error('Edge function not available. Please ensure Supabase is configured and the generate-interpretation- edge function is deployed.');
         }
 
         const prompt = this.createTarotPrompt(question, cards, spread, userName, userStarsign);
@@ -113,8 +193,8 @@ class ChatGPTTarotInterpreter {
                             content: prompt
                         }
                     ],
-                    max_tokens: 2500, // Increased for much more detailed responses
-                    temperature: 0.85 // Higher temperature for more creative, engaging, and interesting responses
+                    max_tokens: 2500,
+                    temperature: 0.85
                 })
             });
 
@@ -122,7 +202,6 @@ class ChatGPTTarotInterpreter {
                 const errorData = await response.json().catch(() => ({}));
                 const errorMessage = errorData.error?.message || 'Unknown error';
                 
-                // Provide specific error messages for common issues
                 if (response.status === 401) {
                     console.error('ChatGPT API 401 Unauthorized:', errorMessage);
                     throw new Error('Invalid or missing OpenAI API key. Please check your API key configuration.');
@@ -145,21 +224,17 @@ class ChatGPTTarotInterpreter {
             
             return result;
         } catch (error) {
-            // Handle specific error types
             if (error.message && error.message.includes('API key')) {
-                // Already handled above, just re-throw
                 throw error;
             }
             
-            // Handle CORS and network errors gracefully
             if (error.message && error.message.includes('CORS')) {
-                console.error('ChatGPT API CORS Error: This may be a false CORS error. Check if API key is valid.');
-                throw new Error('AI interpretation is currently unavailable. Please check your API key configuration or use a standard tarot reading.');
+                console.error('ChatGPT API CORS Error: Direct API calls blocked. Use Supabase Edge Function instead.');
+                throw new Error('AI interpretation requires Supabase Edge Function. Please ensure it is configured and deployed.');
             }
             
             if (error.message && (error.message.includes('Failed to fetch') || error.message.includes('NetworkError'))) {
                 console.error('ChatGPT API Network Error:', error);
-                // Check if this might be a 401 error disguised as network error
                 if (error.message.includes('401') || error.message.includes('Unauthorized')) {
                     throw new Error('Invalid or missing OpenAI API key. Please check your API key configuration.');
                 }
@@ -225,16 +300,73 @@ Write with personality, passion, and intrigue. Use vivid language, powerful meta
     }
 
     async generateGeneralTarotInterpretation(cards, spread, userName = null, userStarsign = null) {
-        if (!this.hasApiKey()) {
-            throw new Error('No API key provided');
-        }
-
         // Check cache first
         const cacheKey = this.generateCacheKey('general', null, cards, spread, userName, userStarsign);
         const cachedResponse = this.getCachedResponse(cacheKey);
         if (cachedResponse) {
             console.log('Using cached response for general interpretation');
             return cachedResponse;
+        }
+
+        // Wait for Supabase to be available (up to 5 seconds)
+        let supabaseReady = false;
+        for (let i = 0; i < 50; i++) {
+            if (window.getSupabaseClient && window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                supabaseReady = true;
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        // Try using Supabase Edge Function first (server-side API key)
+        if (supabaseReady) {
+            try {
+                const supabase = window.getSupabaseClient();
+                if (supabase) {
+                    console.log('🔮 Using Supabase Edge Function for interpretation...');
+                    
+                    const { data, error } = await supabase.functions.invoke(
+                        window.SUPABASE_CONFIG.functions.generateInterpretation,
+                        {
+                            body: {
+                                type: 'general',
+                                question: null,
+                                cards: cards.map(card => ({
+                                    name: card.name,
+                                    isReversed: card.isReversed || false,
+                                    position: card.position
+                                })),
+                                spread: spread,
+                                userName: userName,
+                                userStarsign: userStarsign,
+                                readingType: 'general'
+                            }
+                        }
+                    );
+
+                    if (error) {
+                        console.error('❌ Edge function failed:', error);
+                        throw new Error(`Edge function failed: ${error.message}`);
+                    }
+
+                    if (data && data.success && data.interpretation) {
+                        console.log('✅ Edge function succeeded');
+                        const result = data.interpretation;
+                        this.setCachedResponse(cacheKey, result);
+                        return result;
+                    } else {
+                        throw new Error('Edge function returned invalid response');
+                    }
+                }
+            } catch (edgeError) {
+                console.error('❌ Edge function exception:', edgeError);
+                throw new Error(`Edge function failed: ${edgeError.message}`);
+            }
+        }
+
+        // Fallback: Direct API call (only if edge function not available)
+        if (!this.hasApiKey()) {
+            throw new Error('Edge function not available. Please ensure Supabase is configured and the generate-interpretation- edge function is deployed.');
         }
 
         const prompt = this.createGeneralTarotPrompt(cards, spread, userName, userStarsign);
@@ -258,8 +390,8 @@ Write with personality, passion, and intrigue. Use vivid language, powerful meta
                             content: prompt
                         }
                     ],
-                    max_tokens: 2500, // Increased for much more detailed responses
-                    temperature: 0.85 // Higher temperature for more creative, engaging, and interesting responses
+                    max_tokens: 2500,
+                    temperature: 0.85
                 })
             });
 
@@ -271,9 +403,7 @@ Write with personality, passion, and intrigue. Use vivid language, powerful meta
             const data = await response.json();
             const result = data.choices[0].message.content;
             
-            // Cache the response
             this.setCachedResponse(cacheKey, result);
-            
             return result;
         } catch (error) {
             console.error('ChatGPT API Error:', error);
@@ -357,16 +487,73 @@ CRITICAL: This is a GENERAL reading with NO specific question. NEVER mention "yo
     }
 
     async generateHoroscopeInterpretation(cards, spread, userName = null, userStarsign = null) {
-        if (!this.hasApiKey()) {
-            throw new Error('No API key provided');
-        }
-
         // Check cache first
         const cacheKey = this.generateCacheKey('horoscope', null, cards, spread, userName, userStarsign);
         const cachedResponse = this.getCachedResponse(cacheKey);
         if (cachedResponse) {
             console.log('Using cached response for horoscope interpretation');
             return cachedResponse;
+        }
+
+        // Wait for Supabase to be available (up to 5 seconds)
+        let supabaseReady = false;
+        for (let i = 0; i < 50; i++) {
+            if (window.getSupabaseClient && window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                supabaseReady = true;
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        // Try using Supabase Edge Function first (server-side API key)
+        if (supabaseReady) {
+            try {
+                const supabase = window.getSupabaseClient();
+                if (supabase) {
+                    console.log('🔮 Using Supabase Edge Function for interpretation...');
+                    
+                    const { data, error } = await supabase.functions.invoke(
+                        window.SUPABASE_CONFIG.functions.generateInterpretation,
+                        {
+                            body: {
+                                type: 'horoscope',
+                                question: null,
+                                cards: cards.map(card => ({
+                                    name: card.name,
+                                    isReversed: card.isReversed || false,
+                                    position: card.position
+                                })),
+                                spread: spread,
+                                userName: userName,
+                                userStarsign: userStarsign,
+                                readingType: 'horoscope'
+                            }
+                        }
+                    );
+
+                    if (error) {
+                        console.error('❌ Edge function failed:', error);
+                        throw new Error(`Edge function failed: ${error.message}`);
+                    }
+
+                    if (data && data.success && data.interpretation) {
+                        console.log('✅ Edge function succeeded');
+                        const result = data.interpretation;
+                        this.setCachedResponse(cacheKey, result);
+                        return result;
+                    } else {
+                        throw new Error('Edge function returned invalid response');
+                    }
+                }
+            } catch (edgeError) {
+                console.error('❌ Edge function exception:', edgeError);
+                throw new Error(`Edge function failed: ${edgeError.message}`);
+            }
+        }
+
+        // Fallback: Direct API call (only if edge function not available)
+        if (!this.hasApiKey()) {
+            throw new Error('Edge function not available. Please ensure Supabase is configured and the generate-interpretation- edge function is deployed.');
         }
 
         const prompt = this.createHoroscopePrompt(cards, spread, userName, userStarsign);
@@ -394,8 +581,8 @@ CRITICAL: This is a GENERAL reading with NO specific question. NEVER mention "yo
                             content: prompt
                         }
                     ],
-                    max_tokens: 2500, // Increased for much more detailed responses
-                    temperature: 0.85 // Higher temperature for more creative, engaging, and interesting responses
+                    max_tokens: 2500,
+                    temperature: 0.85
                 })
             });
             
@@ -409,9 +596,7 @@ CRITICAL: This is a GENERAL reading with NO specific question. NEVER mention "yo
             const data = await response.json();
             const result = data.choices[0].message.content;
             
-            // Cache the response
             this.setCachedResponse(cacheKey, result);
-            
             return result;
         } catch (error) {
             console.error('ChatGPT API Error:', error);
@@ -502,16 +687,73 @@ CRITICAL: This is a DAILY HOROSCOPE reading with NO specific question. NEVER men
     }
 
     async generateCardSpecificInterpretation(card, question, userName = null) {
-        if (!this.hasApiKey()) {
-            throw new Error('No API key provided');
-        }
-
         // Check cache first
         const cacheKey = this.generateCacheKey('card', question, [card], {name: 'Single Card'}, null, userName);
         const cachedResponse = this.getCachedResponse(cacheKey);
         if (cachedResponse) {
             console.log('Using cached response for card interpretation');
             return cachedResponse;
+        }
+
+        // Wait for Supabase to be available (up to 5 seconds)
+        let supabaseReady = false;
+        for (let i = 0; i < 50; i++) {
+            if (window.getSupabaseClient && window.SUPABASE_CONFIG?.functions?.generateInterpretation) {
+                supabaseReady = true;
+                break;
+            }
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        // Try using Supabase Edge Function first (server-side API key)
+        if (supabaseReady) {
+            try {
+                const supabase = window.getSupabaseClient();
+                if (supabase) {
+                    console.log('🔮 Using Supabase Edge Function for interpretation...');
+                    
+                    const { data, error } = await supabase.functions.invoke(
+                        window.SUPABASE_CONFIG.functions.generateInterpretation,
+                        {
+                            body: {
+                                type: 'card',
+                                question: question,
+                                cards: [{
+                                    name: card.name,
+                                    isReversed: card.isReversed || false,
+                                    position: { name: 'Single Card' }
+                                }],
+                                spread: { name: 'Single Card' },
+                                userName: userName,
+                                userStarsign: null,
+                                readingType: 'question'
+                            }
+                        }
+                    );
+
+                    if (error) {
+                        console.error('❌ Edge function failed:', error);
+                        throw new Error(`Edge function failed: ${error.message}`);
+                    }
+
+                    if (data && data.success && data.interpretation) {
+                        console.log('✅ Edge function succeeded');
+                        const result = data.interpretation;
+                        this.setCachedResponse(cacheKey, result);
+                        return result;
+                    } else {
+                        throw new Error('Edge function returned invalid response');
+                    }
+                }
+            } catch (edgeError) {
+                console.error('❌ Edge function exception:', edgeError);
+                throw new Error(`Edge function failed: ${edgeError.message}`);
+            }
+        }
+
+        // Fallback: Direct API call (only if edge function not available)
+        if (!this.hasApiKey()) {
+            throw new Error('Edge function not available. Please ensure Supabase is configured and the generate-interpretation- edge function is deployed.');
         }
 
         let prompt = `Single card reading: "${question}"\n`;
@@ -538,8 +780,8 @@ CRITICAL: This is a DAILY HOROSCOPE reading with NO specific question. NEVER men
                             content: prompt
                         }
                     ],
-                    max_tokens: 800, // Increased for more detailed card interpretations
-                    temperature: 0.9 // Higher temperature for more creative, bold, and engaging responses
+                    max_tokens: 800,
+                    temperature: 0.9
                 })
             });
 
@@ -551,9 +793,7 @@ CRITICAL: This is a DAILY HOROSCOPE reading with NO specific question. NEVER men
             const data = await response.json();
             const result = data.choices[0].message.content;
             
-            // Cache the response
             this.setCachedResponse(cacheKey, result);
-            
             return result;
         } catch (error) {
             console.error('ChatGPT API Error:', error);
