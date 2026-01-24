@@ -10,10 +10,10 @@ const GOOGLE_ADS_CONFIG = {
     // Your AdSense Publisher ID
     publisherId: 'ca-pub-2743300891813268',
     
-    // Auto ads configuration - disabled on mobile
+    // Auto ads configuration - enabled on all devices (including mobile)
     autoAds: {
-        enabled: !isMobileDevice(),
-        pageLevelAds: !isMobileDevice()
+        enabled: true,
+        pageLevelAds: true
     },
     
     // Ad Settings
@@ -255,49 +255,96 @@ function initializeAdSense() {
     }
 }
 
+// Fix: Prevent Google AdSense from setting aria-hidden on body element
+// This is a critical accessibility issue - aria-hidden on body hides the entire page from screen readers
+function preventBodyAriaHidden() {
+    // Watch for aria-hidden being set on body
+    const bodyObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'aria-hidden') {
+                const body = document.body;
+                if (body && body.getAttribute('aria-hidden') === 'true') {
+                    body.removeAttribute('aria-hidden');
+                }
+            }
+        });
+    });
+    
+    // Observe body for aria-hidden changes
+    bodyObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['aria-hidden']
+    });
+    
+    // Also check immediately and periodically
+    function checkAndRemove() {
+        if (document.body && document.body.getAttribute('aria-hidden') === 'true') {
+            document.body.removeAttribute('aria-hidden');
+        }
+    }
+    
+    // Check immediately
+    checkAndRemove();
+    
+    // Check periodically (every 500ms) to catch AdSense changes
+    const checkInterval = setInterval(() => {
+        checkAndRemove();
+    }, 500);
+    
+    // Stop checking after 30 seconds (AdSense usually sets it quickly if at all)
+    setTimeout(() => {
+        clearInterval(checkInterval);
+    }, 30000);
+}
+
 // Initialize auto ads when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if mobile device - if so, disable ads completely
-    if (isMobileDevice()) {
-        console.log('Mobile device detected - AdSense disabled');
-        
-        // Hide all ad containers
-        const adContainers = document.querySelectorAll('.google-ad-header, .google-ad-banner, .google-ad-post-reading, .google-ad-sidebar, .in-content-ad, .adsbygoogle, [data-adsbygoogle-status]');
-        adContainers.forEach(container => {
-            container.style.display = 'none';
-            container.style.visibility = 'hidden';
-            container.style.opacity = '0';
-            container.style.height = '0';
-            container.style.width = '0';
-            container.style.margin = '0';
-            container.style.padding = '0';
-        });
-        
-        // Disable AdSense
-        if (window.adsbygoogle) {
-            window.adsbygoogle = null;
-        }
-        
-        // Prevent auto ads from initializing
-        GOOGLE_ADS_CONFIG.autoAds.enabled = false;
-        GOOGLE_ADS_CONFIG.autoAds.pageLevelAds = false;
-        
-        return;
-    }
-
-    // Desktop only: fix AdSense injected overlay positioning issues.
+    // Detect device type for logging
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const deviceType = isMobile ? 'mobile' : 'desktop';
+    
+    // CRITICAL: Prevent AdSense from breaking accessibility
+    preventBodyAriaHidden();
+    
+    // Fix AdSense injected overlay positioning issues (all devices)
     setupGrippyHostLeftFix();
     
-    // Validate auto ads configuration (desktop only)
-    validateAutoAds();
+    // Validate auto ads configuration (all devices including mobile)
+    const isValid = validateAutoAds();
     
     // Check auto ads status
     checkAutoAdsStatus();
     
+    // Log device type and AdSense status
+    console.log(`📱 AdSense Auto Ads initialization for ${deviceType} device`);
+    console.log(`✅ Auto ads enabled: ${GOOGLE_ADS_CONFIG.autoAds.enabled}`);
+    console.log(`✅ Page level ads: ${GOOGLE_ADS_CONFIG.autoAds.pageLevelAds}`);
+    console.log(`✅ AdSense script loaded: ${typeof adsbygoogle !== 'undefined'}`);
+    console.log(`✅ Configuration valid: ${isValid}`);
+    
+    // Check for auto-placed ads after a delay
+    setTimeout(() => {
+        const autoAds = document.querySelectorAll('[data-adsbygoogle-status]');
+        console.log(`📊 Auto-placed ads found: ${autoAds.length}`);
+        if (autoAds.length > 0) {
+            console.log('✅ Ads are being served on', deviceType);
+        } else {
+            console.warn('⚠️ No ads detected yet. This may be normal if AdSense is still evaluating the page.');
+        }
+    }, 3000);
+    
     // Auto ads are automatically initialized by the AdSense script
     // No manual initialization needed
-    console.log('AdSense Auto Ads initialized - ads will appear automatically');
+    console.log('AdSense Auto Ads initialized - ads will appear automatically on all devices');
 });
+
+// Also start the fix immediately (before DOMContentLoaded)
+if (document.readyState === 'loading') {
+    // Will be handled by DOMContentLoaded
+} else {
+    // DOM already loaded, start immediately
+    preventBodyAriaHidden();
+}
 
 // Global error handler for AdSense errors
 window.addEventListener('error', function(event) {
